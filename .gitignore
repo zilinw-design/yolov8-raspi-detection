@@ -1,27 +1,50 @@
-# Model files (large binary)
-models/*.pt
-models/*.onnx
-models/*.engine
+﻿# ---- 模型文件（外部下载，不纳入版本管理） ----
+*.pt
+*.onnx
+*.engine
+*.tflite
+*.mlpackage/
+*.pth
+*_saved_model/
+*_openvino_model/
+*_ncnn_model/
+*_paddle_model/
+*_rknn_model/
+*_mnn_model/
+*_executorch_model/
+*_hailo_model/
+*_deepx_model/
+*_axelera_model/
 
-# Python
+# ---- 生成输出 ----
+*_axelera_model/
+
+# ---- 生成输出 ----
+outputs/screenshots/
+outputs/videos/
+outputs/*.jpg
+outputs/*.png
+test_*.jpg
+test_*.png
+
+# ---- Python ----
 __pycache__/
 *.pyc
 *.pyo
 .venv/
 venv/
+*.egg-info/
+dist/
 
-# IDE
+# ---- IDE ----
 .vscode/
 .idea/
+*.swp
 
-# OS
+# ---- OS ----
 .DS_Store
 Thumbs.db
 
-# Outputs (runtime generated)
-outputs/screenshots/
-outputs/videos/
-
-# Secrets
+# ---- 密钥 ----
 .env
 .env.*
