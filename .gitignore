@@ -1,0 +1,27 @@
+# Model files (large binary)
+models/*.pt
+models/*.onnx
+models/*.engine
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs (runtime generated)
+outputs/screenshots/
+outputs/videos/
+
+# Secrets
+.env
+.env.*
