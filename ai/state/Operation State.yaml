@@ -3,33 +3,14 @@ updated_at: "2026-07-18"
 owner: current_ai
 
 current_task:
-  goal: "项目初始化 — 完成治理文件创建，准备进入任务1（基础目标检测）"
-  type: "project_init"
-  scope:
-    allowed:
-      - "创建项目目录结构"
-      - "填写 Project Brief、Security Boundary、Project Invariants、Constraints And Priority、Operation State"
-      - "创建 AGENTS.md 和 File Registry.md"
-    locked:
-      - "不得修改 ai_harness_framework/ 现有文件"
-      - "不得修改 references/ 参考源码"
-      - "暂时不写业务代码"
+  goal: "Phase 2 — YOLOv8 核心目标检测（类别颜色区分 + 类别过滤 + 样式自定义）"
+  type: "implementation"
 
 completed:
-  - "创建 yolo_learning_project/ 顶层目录结构"
-  - "创建 AGENTS.md"
-  - "创建 ai/governance/Project Brief.md"
-  - "创建 ai/governance/Security Boundary.md"
-  - "创建 ai/governance/Project Invariants.md"
-  - "创建 ai/governance/Constraints And Priority.md"
-  - "创建 ai/governance/File Registry.md"
-  - "创建 ai/state/Operation State.yaml"
-  - "创建 README.md"
-  - "硬件调研：确认树莓派5 + 亚博智能 IMX219 CSI Camera (77°) 配置方案"
-  - "查阅 YahboomTechnology/Pi5-MIPI-CSI-Camera 官方文档"
-  - "查阅 rpi-object-detection 树莓派YOLO检测参考实现"
-  - "确认 D:\Pi\sy1 定位为只读参考资料源，不复制到本项目中"
-  - "更新 Project Brief.md 和 Project Invariants.md 中的硬件信息和不变量"
+  - "Phase 1 全部完成：树莓派5 + IMX219 + YOLOv8n + MJPEG 流 → Windows 浏览器"
+  - "项目目标升级：从学习项目 → 电赛备赛项目（4个Phase）"
+  - "Project Brief.md 更新：新增学习目标、赛题适配要求、跟踪测距规划"
+  - "Constraints And Priority.md 更新：Phase 2 优先级和范围定义"
 
 in_progress: []
 
@@ -37,13 +18,12 @@ blocked: []
 
 verification:
   performed:
-    - "确认项目目录结构完整"
-    - "确认 5 个初始化文件均已填写，无 TBD 空字段"
-    - "确认治理文件之间无逻辑冲突"
-    - "确认 File Registry 注册了所有必要文件"
+    - "Phase 1 实时检测工作正常（已验证）"
+    - "治理文件一致性检查通过"
   pending:
-    - "用户确认治理文件内容"
+    - "Phase 2 代码实现"
+    - "Phase 2 在树莓派5上运行验证"
 
 next_step:
-  - "用户审查治理文件和范围定义后，进入任务1实现阶段"
-  - "任务1第一操作：安装依赖（pip install ultralytics opencv-python numpy matplotlib）"
+  - "实现 detect_pi.py 增强版：类别颜色映射 + --classes 过滤 + --box-thickness/--font-scale 参数"
+  - "在树莓派上测试：验证类别过滤和颜色区分效果"

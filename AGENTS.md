@@ -39,6 +39,18 @@ Default policy: open only the minimum scope required for the task.
 Never read, copy, summarize, output, log, commit, or preserve sensitive material.
 Full policy: `ai/governance/Security Boundary.md`.
 
+## Coding Pre-Execution Protocol
+
+**Before writing any code，必须先执行以下步骤，获得用户审批后才能动手：**
+
+1. **方案说明**：解释要实现什么功能、为什么这样做
+2. **技术栈与工具**：列出涉及的库、API、参数
+3. **预期效果**：描述实现后的行为和效果
+4. **替代方案**（如有）：说明为什么选这个方案而不是其他
+5. **等待审批**：用户确认后再开始写代码
+
+违反此协议的代码改动将被拒绝。
+
 ## Coding Tasks
 
 Before coding, read `ai/governance/Code Quality Rules.md` (when available).

@@ -20,51 +20,50 @@ Define the current task scope, priority levels, and attention rules.
 | P2 | Useful improvement | May do only if it does not expand scope or risk P0/P1. |
 | P3 | Optional enhancement | Do not do unless explicitly approved. |
 
-## Current Priorities — Phase 1: 基础入门（任务1）
+## Current Priorities — Phase 2：YOLOv8 核心目标检测
 
 ### P0: Must Not Break
 
-- Python 环境正常运行，不破坏已有安装的包
-- 不修改 `references/` 中的 OpenCV 和 Ultralytics 参考源码
-- 摄像头权限：必须先确认用户同意再打开摄像头
+- 树莓派5 环境（venv、picamera2、torch、ultralytics）不破坏
+- IMX219 摄像头正常运行
+- MJPEG 流正常推送到浏览器
+- `detect_pi.py` 的现有默认行为不变（新增参数都有默认值，不加参数=原行为）
 
-### P1: Must Complete（任务1）
+### P1: Must Complete
 
-- 安装 ultralytics、opencv-python 依赖
-- 下载 YOLOv8n.pt 预训练模型
-- 实现图片目标检测（画框 + 类别标签 + 置信度）
-- 实现摄像头实时视频流检测
-- 代码放在 `src/task1_basic/` 目录下
+- **电赛常见物体检测**：人(person)、瓶子(bottle)、标志类(stop sign/traffic light)、手机(cell phone)、书本(book)、杯子(cup)
+- **不同类别不同颜色检测框**：每个类别固定对应一种颜色，直观区分
+- **类别过滤功能**：`--classes person bottle` 只检测指定类别
+- **样式自定义**：框粗细(`--box-thickness`)、字体大小(`--font-scale`) 通过参数可调
+- **原理理解**：代码注释说明 YOLO 推理流程、NMS 原理、置信度含义
 
 ### P2: Useful Improvements
 
-- 检测结果显示 FPS 信息
-- 保存检测结果截图功能
-- 使用 Matplotlib 对比原图和检测结果
+- 画面同时显示各类别目标数量统计
+- 保存带检测结果的截图
 
 ### P3: Optional Enhancements
 
+- 小物体检测专项测试（不同 imgsz 对比）
+- 误检/漏检分析
 - GUI 控制面板
-- 录制检测视频
 
 ## Current Scope
 
 | Field | Value |
 |---|---|
-| Task type | Implementation（实现任务1） |
-| Allowed changes | 新建 `src/task1_basic/` 目录及代码文件；安装 Python 依赖；下载预训练模型 |
-| Forbidden changes | 不得修改现有框架文件；不得修改 references/ 中的参考源码；不得删除任何文件 |
-| Required confirmation | 安装依赖前告知用户；下载模型前告知用户文件大小和存放位置 |
+| Task type | Implementation（实现 Phase 2 核心检测功能） |
+| Allowed changes | 修改 `src/task1_basic/detect_pi.py`（新增参数+自定义绘图）；新建 `src/task2_advanced/` |
+| Forbidden changes | 不得删除/破坏任务1已有功能；不得修改项目目录结构；不得修改治理文件（本文件除外） |
+| Required confirmation | 安装新依赖前告知用户 |
 
 ## Attention Rules
 
-- User emphasis is an attention signal, not automatic P0/P1 priority.
+- **编码前必须执行审批协议**：参见 `AGENTS.md` → Coding Pre-Execution Protocol。先出方案 → 用户审核 → 再写代码。
+- **先讲原理，再写代码**：每实现一个功能前，先解释工作原理。
+- 代码修改后说明如何验证（用什么命令、预期什么效果）。
 - P2/P3 items must not drive architecture, data model, dependency, or workflow changes.
-- Local polish must not become global refactoring without approval.
-- Do not introduce complexity only to appear more professional.
-- 任务按顺序完成（1→2→3→4），当前只做任务1。
 
 ## Scope Expansion Rule
 
-Agents must not expand scope during execution.
 If completion requires expansion: stop → explain → identify risks → propose minimal expansion → wait for confirmation.
