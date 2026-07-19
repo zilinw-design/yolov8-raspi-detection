@@ -5,6 +5,9 @@ def test_project_root_exists():
     from pathlib import Path
     assert Path("src/task1_basic/detect_pi.py").exists(), "detect_pi.py not found"
     assert Path("src/task1_basic/detect_camera.py").exists(), "detect_camera.py not found"
+    assert Path("src/task2_advanced/benchmark_fps.py").exists(), "benchmark_fps.py not found"
+    assert Path("src/task2_advanced/benchmark_conf.py").exists(), "benchmark_conf.py not found"
+    assert Path("src/task2_advanced/benchmark_lighting.py").exists(), "benchmark_lighting.py not found"
 
 def test_governance_files_present():
     """Verify required governance files exist."""
