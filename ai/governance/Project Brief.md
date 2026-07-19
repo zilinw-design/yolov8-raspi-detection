@@ -83,7 +83,8 @@ Define the project goal, user context, success criteria, explicit non-goals, and
 ## Success Criteria
 
 - [x] **Phase 1（基础环境）**：树莓派5 + IMX219 摄像头 + YOLOv8n 实时检测 + MJPEG 流到 Windows 浏览器 ✅
-- [ ] **Phase 2（核心检测）**：检测人/瓶子/标志等常见物体；不同类别不同颜色框；支持类别过滤；理解调参原理
+- [x] **Phase 2（核心检测）**：检测人/瓶子/标志等常见物体；不同类别不同颜色框；支持类别过滤；理解调参原理 ✅
+- [x] **Phase 2b（性能调优）**：FPS量化对比(3模型×4分辨率)；置信度拐点分析(3场景×7档conf)；光照鲁棒性验证(person波动0.009) ✅
 - [ ] **Phase 3（跟踪测距）**：ByteTrack 实现 ID 持续跟踪；单目测距误差 < 20%；画面显示 "ID:1 距离:45cm"
 - [ ] **Phase 4（赛题适配）**：完成鲁棒性测试报告；量化性能指标；实现一种优化方案并对比前后效果
 

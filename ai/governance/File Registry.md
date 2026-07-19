@@ -37,6 +37,7 @@ Define canonical file status, read policy, ownership, and update policy. Agents 
 | `ai/state/Operation State.yaml` | living | latest_only | current_ai | Current handoff state |
 | `ai/logs/` | append-only | when_related | working_ai | Agent logs when needed |
 | `ai/lessons/` | append-only | when_related | working_ai | Repeat-error prevention |
+| `ai/decisions/Project Decision Log.md` | append-only | before_each_operation | user_or_lead_ai | 技术决策记录：方案、出处、否决原因 |
 | `src/` | living | when_related | user_or_authorized_ai | Production source code |
 | `tests/` | stable | when_related | user_or_authorized_ai | Test code |
 | `docs/` | stable | when_related | user_or_authorized_ai | Formal documentation |
@@ -66,6 +67,7 @@ Before project work, read:
 | Coding or file modification | `Constraints And Priority.md` (re-read scope) |
 | Final answer or completion | `Operation State.yaml` (update) |
 | Technology stack, API, or dependency changes | `Project Invariants.md` |
+| 提出优化方案或技术选型 | `ai/decisions/Project Decision Log.md`（追加记录） |
 | Command failure or repeated error | `ai/lessons/` |
 
 ## Conflict Rules

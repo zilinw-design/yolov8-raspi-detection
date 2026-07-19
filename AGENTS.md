@@ -46,8 +46,10 @@ Full policy: `ai/governance/Security Boundary.md`.
 1. **方案说明**：解释要实现什么功能、为什么这样做
 2. **技术栈与工具**：列出涉及的库、API、参数
 3. **预期效果**：描述实现后的行为和效果
-4. **替代方案**（如有）：说明为什么选这个方案而不是其他
-5. **等待审批**：用户确认后再开始写代码
+4. **替代方案**（如有）：说明为什么选这个方案而不是其他，否决方案需注明原因
+5. **文献依据**（如有）：列出参考的论文/GitHub项目/社区讨论，禁止无出处的幻想式方案
+6. **等待审批**：用户确认后再开始写代码
+7. **追加决策记录**：审批通过并实施后，将完整决策（含候选方案、否决方案、出处）追加到 `ai/decisions/Project Decision Log.md`
 
 违反此协议的代码改动将被拒绝。
 
@@ -63,7 +65,7 @@ Default coding requirements:
 ## Recordkeeping
 
 Do not create logs for routine chatter. Record only:
-- decisions that affect future work
+- decisions that affect future work → **必须追加到 `ai/decisions/Project Decision Log.md`**
 - verified error causes and fixes
 - handoff state needed by the next agent
 

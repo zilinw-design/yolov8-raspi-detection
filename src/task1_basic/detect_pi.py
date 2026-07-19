@@ -69,6 +69,61 @@ DEFAULT_BOX_THICKNESS = 2
 DEFAULT_FONT_SCALE = 0.5
 JPEG_QUALITY = 75
 
+# ---- Phase 2b: 逐类置信度阈值（文献: Han, Won, Koo 2025） ----
+# 小物体在低分辨率下置信度天然偏低，需降低阈值保召回；
+# 大物体（如 person）置信度稳定，可用较高阈值减少误检。
+PER_CLASS_CONF: Dict[str, float] = {
+    "person": 0.35,
+    "bottle": 0.20,
+    "cup": 0.20,
+    "book": 0.20,
+    "cell phone": 0.20,
+    "stop sign": 0.25,
+    "traffic light": 0.25,
+}
+
+
+# ======================================================================
+# Phase 2b: 暗光图像预处理（文献: Zuiderveld 1994, Poynton 1998）
+# ======================================================================
+def preprocess_frame(
+    frame: np.ndarray,
+    enable_clahe: bool = False,
+    gamma: float = 1.0,
+) -> np.ndarray:
+    """
+    对摄像头帧做 CLAHE + Gamma 预处理，增强暗部细节。
+
+    CLAHE (Zuiderveld 1994):
+      分块做对比度受限的直方图均衡，增强局部对比度，不放大平坦区域噪声。
+      参数: clipLimit=2.0, tileGridSize=(8,8) — 2024-2025 多篇 YOLO 论文推荐值。
+
+    Gamma 校正 (Poynton 1998):
+      幂函数 V_out = V_in^γ。γ<1 提亮暗部，γ=1 不变。
+      暗光场景推荐 γ=0.7。
+
+    注意：CLAHE 需要在 LAB 色彩空间的 L 通道上操作，处理完再转回 BGR。
+    """
+    if not enable_clahe and gamma == 1.0:
+        return frame
+
+    if enable_clahe:
+        # BGR → LAB，只在 L（亮度）通道做 CLAHE
+        lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        l = clahe.apply(l)
+        lab = cv2.merge([l, a, b])
+        frame = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+
+    if gamma != 1.0:
+        # 查表法：构建 256 级的 Gamma 映射表，O(1) 逐像素
+        table = np.array([((i / 255.0) ** gamma) * 255 for i in range(256)], dtype=np.uint8)
+        frame = cv2.LUT(frame, table)
+
+    return frame
+JPEG_QUALITY = 75
+
 # ======================================================================
 # 类别颜色映射
 # ======================================================================
@@ -349,6 +404,23 @@ def main() -> None:
         default=DEFAULT_FONT_SCALE,
         help=f"标签字体大小（默认 {DEFAULT_FONT_SCALE}）",
     )
+    # ---- Phase 2b: 暗光优化参数 ----
+    parser.add_argument(
+        "--clahe",
+        action="store_true",
+        help="启用 CLAHE 暗光增强（Zuiderveld 1994）",
+    )
+    parser.add_argument(
+        "--gamma",
+        type=float,
+        default=1.0,
+        help="Gamma 校正值，<1 提亮暗部，暗光推荐 0.7（Poynton 1998）",
+    )
+    parser.add_argument(
+        "--per-class-conf",
+        action="store_true",
+        help="启用逐类置信度阈值（Han, Won, Koo 2025），替代统一 --conf",
+    )
     args = parser.parse_args()
 
     # ---- 解析类别过滤列表 ----
@@ -390,15 +462,33 @@ def main() -> None:
 
             t0 = time.perf_counter()
 
+            # ---- Phase 2b: CLAHE + Gamma 预处理 ----
+            processed = preprocess_frame(frame, args.clahe, args.gamma)
+
             # ---- YOLO 推理 ----
-            # results[0] 包含：boxes（边界框）、names（类别映射）
-            results = model(frame, conf=args.conf, imgsz=args.imgsz, verbose=False)[0]
+            # 逐类置信度：用模型推理时传统一低阈值，后处理中按类别过滤
+            infer_conf = 0.1 if args.per_class_conf else args.conf
+            results = model(processed, conf=infer_conf, imgsz=args.imgsz, verbose=False)[0]
 
             # ---- 自定义绘图（替代 results.plot()） ----
             if results.boxes is not None and len(results.boxes) > 0:
                 boxes_xyxy = results.boxes.xyxy.cpu().numpy()
                 cls_ids = results.boxes.cls.int().cpu().tolist()
                 confs = results.boxes.conf.float().cpu().tolist()
+
+                # ---- Phase 2b: 逐类置信度过滤 ----
+                if args.per_class_conf:
+                    filtered_boxes, filtered_ids, filtered_confs = [], [], []
+                    for b, cid, cf in zip(boxes_xyxy, cls_ids, confs):
+                        cls_name = model.names.get(cid, "")
+                        threshold = PER_CLASS_CONF.get(cls_name, args.conf)
+                        if cf >= threshold:
+                            filtered_boxes.append(b)
+                            filtered_ids.append(cid)
+                            filtered_confs.append(cf)
+                    boxes_xyxy = np.array(filtered_boxes) if filtered_boxes else np.empty((0, 4))
+                    cls_ids = filtered_ids
+                    confs = filtered_confs
 
                 # 类别数量统计
                 cls_counter = Counter()

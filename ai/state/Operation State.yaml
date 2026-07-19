@@ -1,16 +1,33 @@
 status: active
-updated_at: "2026-07-18"
+updated_at: "2026-07-19"
 owner: current_ai
 
 current_task:
-  goal: "Phase 2 — YOLOv8 核心目标检测（类别颜色区分 + 类别过滤 + 样式自定义）"
-  type: "implementation"
+  goal: "Phase 2 + 2b 全部完成 — 准备进入 Phase 3（跟踪 + 测距融合）"
+  type: "verification_complete"
 
 completed:
-  - "Phase 1 全部完成：树莓派5 + IMX219 + YOLOv8n + MJPEG 流 → Windows 浏览器"
-  - "项目目标升级：从学习项目 → 电赛备赛项目（4个Phase）"
-  - "Project Brief.md 更新：新增学习目标、赛题适配要求、跟踪测距规划"
-  - "Constraints And Priority.md 更新：Phase 2 优先级和范围定义"
+  # ---- Phase 1 ----
+  - "Phase 1：树莓派5 + IMX219 + YOLOv8n + MJPEG 流 → Windows 浏览器"
+
+  # ---- Phase 2 核心检测 ----
+  - "类别颜色映射：15种常见物体固定颜色，调色板自动分配"
+  - "类别过滤：--classes 参数，逗号分隔"
+  - "样式自定义：--box-thickness / --font-scale"
+  - "画面叠加：FPS + 模型信息 + 各类别目标数量统计"
+  - "原理注释：YOLO推理流程、NMS原理、置信度含义（中文）"
+
+  # ---- Phase 2b 性能调优 ----
+  - "实验一 FPS对比：yolov8n@320=11.2fps, n@256=16.9fps, s@256=6.4fps, m全系<3fps"
+  - "实验二 置信度扫描：简单场景最优conf=0.3, 复杂场景0.4, 干扰场景0.3"
+  - "实验三 光照鲁棒性：person置信度波动仅0.009(极端稳定), book/cup暗光丢失"
+  - "ncnn基线对比：PyTorch比ncnn(C++)慢6-10倍，Phase4 ONNX导出有明确量化依据"
+  - "yolov8m淘汰：树莓派4GB上最快仅2.7fps，不可用"
+
+  # ---- 工程 ----
+  - "三实验拆分：benchmark_fps.py / benchmark_conf.py / benchmark_lighting.py"
+  - "测试图片体系：7张图覆盖简单/复杂/干扰/正常光/暗光/微光"
+  - "树莓派文件布局整理：sy1→~/projects/raspi-vision, 当前→~/projects/yolov8-raspi-detection"
 
 in_progress: []
 
@@ -18,12 +35,12 @@ blocked: []
 
 verification:
   performed:
-    - "Phase 1 实时检测工作正常（已验证）"
-    - "治理文件一致性检查通过"
-  pending:
-    - "Phase 2 代码实现"
-    - "Phase 2 在树莓派5上运行验证"
+    - "实验一：3模型×4分辨率=12组FPS数据，yolov8m淘汰"
+    - "实验二：3场景×7置信度=21组检出数，拐点分析完成"
+    - "实验三：3光照×4类别=12组置信度，person稳定(0.009波动)，book/cup暗光丢失"
+    - "CSV数据已保存至outputs/目录"
+  pending: []
 
 next_step:
-  - "实现 detect_pi.py 增强版：类别颜色映射 + --classes 过滤 + --box-thickness/--font-scale 参数"
-  - "在树莓派上测试：验证类别过滤和颜色区分效果"
+  - "进入 Phase 3：目标跟踪(SORT/ByteTrack) + 单目测距"
+  - "Phase 4 预留：ONNX/ncnn导出（PyTorch vs ncnn有6-10倍差距，值得做）"
