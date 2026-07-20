@@ -257,6 +257,18 @@ update_policy: append_on_proposal
 **Phase 2b 边界确认**：
 - ✅ 目标达成：暗光下从小物体"未检出"→"可检出"（conf 0.2-0.3）
 - ❌ 超出范围（留给 Phase 3/4）：置信度偏低（imgsz=320 物理限制）、偶发不稳定（需要跟踪补帧）
+
+---
+
+### [2026-07-20] 自适应亮度路由（已记录，延后实现）
+
+**背景**：当前 CLAHE+Gamma 需要手动 `--clahe --gamma 0.7`。电赛场景光照不确定，需自动判断。
+
+**文献依据**：FAIERDet (2025) — 模糊推理评估曝光 → 暗帧增强/亮帧跳过；YOLO-DER (2025) — Dynamic Enhancement Routing；共 6 篇 2024-2025 论文一致采用"选择性增强"策略。
+
+**计划方案**：`--clahe auto` 模式。计算 LAB L 通道均值 → < 阈值自动开 CLAHE+Gamma → ≥ 阈值仅 CLAHE。改动量 ~20 行。
+
+**延后原因**：先完成 Phase 3（跟踪+测距）和 Phase 4（ONNX导出），此优化属于锦上添花——当前手动 `--clahe --gamma 0.7` 已覆盖暗光场景。
 - 文献 [4]：自动驾驶低光检测 (2025) — CLAHE+Gamma+中值滤波, +13.3%
 - 文献 [5]：PPE检测 YOLOv9+CLAHE (2025) — CLAHE 实时性优于 GAN
 - 文献 [6]：车辆检测 YOLOv8+CLAHE (2024) — 暗光 +10-20%

@@ -17,7 +17,7 @@ Define the project goal, user context, success criteria, explicit non-goals, and
 |---|---|
 | Project name | 智能视觉识别与测距 — 电赛备赛项目 |
 | One-sentence goal | 在 AI 辅助开发模式下，掌握 YOLO 目标检测、目标跟踪与单目测距的核心能力，能够将算法部署到树莓派5并针对赛题进行系统级优化 |
-| Current stage | Phase 2 — YOLOv8 核心目标检测 |
+| Current stage | Phase 3 — 目标跟踪 + 单目测距融合 |
 
 ## Background
 
