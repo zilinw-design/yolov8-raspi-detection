@@ -39,6 +39,30 @@ WARMUP_FRAMES = 10
 TIMED_FRAMES = 100
 
 
+# ======================================================================
+# 暗光预处理（与 detect_pi.py 共用逻辑，文献: Zuiderveld 1994, Poynton 1998）
+# ======================================================================
+def preprocess_frame(
+    frame: np.ndarray,
+    enable_clahe: bool = False,
+    gamma: float = 1.0,
+) -> np.ndarray:
+    """CLAHE + Gamma 预处理，增强暗部细节。"""
+    if not enable_clahe and gamma == 1.0:
+        return frame
+    if enable_clahe:
+        lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        l = clahe.apply(l)
+        lab = cv2.merge([l, a, b])
+        frame = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+    if gamma != 1.0:
+        table = np.array([((i / 255.0) ** gamma) * 255 for i in range(256)], dtype=np.uint8)
+        frame = cv2.LUT(frame, table)
+    return frame
+
+
 def load_image(path: str, imgsz: int) -> np.ndarray:
     """加载图片并缩放到指定尺寸（保持比例，padding 填充）。"""
     img = cv2.imread(path)
@@ -121,6 +145,8 @@ def main():
     parser.add_argument("--camera", action="store_true", help="使用摄像头（场景需固定）")
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--imgsz", type=int, default=DEFAULT_IMGSZ)
+    parser.add_argument("--clahe", action="store_true", help="CLAHE 暗光增强")
+    parser.add_argument("--gamma", type=float, default=1.0, help="Gamma 校正，暗光推荐 0.7")
     parser.add_argument("--output-dir", default="outputs")
     args = parser.parse_args()
 
@@ -152,8 +178,15 @@ def main():
 
     # ---- 加载模型 ----
     logger.info("加载: %s, imgsz=%d", args.model, args.imgsz)
+    if args.clahe:
+        logger.info("CLAHE: 启用 (clipLimit=2.0, tileGridSize=8x8)")
+    if args.gamma != 1.0:
+        logger.info("Gamma: %.1f", args.gamma)
     model = YOLO(args.model)
     logger.info("类别数: %d", len(model.names))
+
+    # ---- 预处理 ----
+    frame = preprocess_frame(frame, args.clahe, args.gamma)
 
     # ---- 扫描 ----
     logger.info("扫描 conf: %s", [f"{c:.1f}" for c in DEFAULT_CONFS])

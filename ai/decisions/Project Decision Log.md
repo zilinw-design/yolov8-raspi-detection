@@ -237,6 +237,26 @@ update_policy: append_on_proposal
 - 本项目：`references/summarized/low_light_optimization_plan.md` — 完整文献整理
 - 文献 [1]：Zuiderveld (1994) — CLAHE 原始论文
 - 文献 [2]：Poynton (1998) — Gamma 感知编码理论
+
+### 验证结果（2026-07-20 树莓派5实测）
+
+**暗光图片 A/B 对比**（`tests/test_images/窗帘拉上一半.jpg`）：
+
+| conf | 优化前(基线) | 优化后(CLAHE+Gamma 0.7) | 变化 |
+|---|---|---|---|
+| 0.1 | 4 | 6 | +50% |
+| 0.2 | 1 | 3 | +200% |
+| 0.3-0.7 | 1 | 1 | — |
+| 推理耗时 | 69.2ms | 69.4ms | +0.3% |
+
+**实时摄像头测试**（`detect_pi.py --clahe --gamma 0.7 --per-class-conf`）：
+- 最暗测试图（`只开小台灯.jpg`）：cup/bottle 可检出，置信度 0.2-0.3，偶有不稳定
+- person 检测稳定不受影响
+- 画面整体亮度明显提升，但未过度曝光
+
+**Phase 2b 边界确认**：
+- ✅ 目标达成：暗光下从小物体"未检出"→"可检出"（conf 0.2-0.3）
+- ❌ 超出范围（留给 Phase 3/4）：置信度偏低（imgsz=320 物理限制）、偶发不稳定（需要跟踪补帧）
 - 文献 [4]：自动驾驶低光检测 (2025) — CLAHE+Gamma+中值滤波, +13.3%
 - 文献 [5]：PPE检测 YOLOv9+CLAHE (2025) — CLAHE 实时性优于 GAN
 - 文献 [6]：车辆检测 YOLOv8+CLAHE (2024) — 暗光 +10-20%

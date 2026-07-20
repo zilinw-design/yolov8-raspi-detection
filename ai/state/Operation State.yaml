@@ -1,33 +1,27 @@
 status: active
-updated_at: "2026-07-19"
+updated_at: "2026-07-20"
 owner: current_ai
 
 current_task:
-  goal: "Phase 2 + 2b 全部完成 — 准备进入 Phase 3（跟踪 + 测距融合）"
+  goal: "Phase 2b 暗光优化完成 — 准备进入 Phase 3（跟踪 + 测距融合）"
   type: "verification_complete"
 
 completed:
   # ---- Phase 1 ----
-  - "Phase 1：树莓派5 + IMX219 + YOLOv8n + MJPEG 流 → Windows 浏览器"
+  - "Phase 1：树莓派5 + IMX219 + YOLOv8n + MJPEG 流"
 
   # ---- Phase 2 核心检测 ----
-  - "类别颜色映射：15种常见物体固定颜色，调色板自动分配"
-  - "类别过滤：--classes 参数，逗号分隔"
-  - "样式自定义：--box-thickness / --font-scale"
-  - "画面叠加：FPS + 模型信息 + 各类别目标数量统计"
-  - "原理注释：YOLO推理流程、NMS原理、置信度含义（中文）"
+  - "类别颜色映射、类别过滤、样式自定义、画面信息叠加"
 
   # ---- Phase 2b 性能调优 ----
-  - "实验一 FPS对比：yolov8n@320=11.2fps, n@256=16.9fps, s@256=6.4fps, m全系<3fps"
-  - "实验二 置信度扫描：简单场景最优conf=0.3, 复杂场景0.4, 干扰场景0.3"
-  - "实验三 光照鲁棒性：person置信度波动仅0.009(极端稳定), book/cup暗光丢失"
-  - "ncnn基线对比：PyTorch比ncnn(C++)慢6-10倍，Phase4 ONNX导出有明确量化依据"
-  - "yolov8m淘汰：树莓派4GB上最快仅2.7fps，不可用"
-
-  # ---- 工程 ----
-  - "三实验拆分：benchmark_fps.py / benchmark_conf.py / benchmark_lighting.py"
-  - "测试图片体系：7张图覆盖简单/复杂/干扰/正常光/暗光/微光"
-  - "树莓派文件布局整理：sy1→~/projects/raspi-vision, 当前→~/projects/yolov8-raspi-detection"
+  - "实验一 FPS：yolov8n@320=11.2fps, n@256=16.9fps, m淘汰"
+  - "实验二 conf扫描：简单场景0.3, 复杂0.4, 干扰0.3"
+  - "实验三 光照：person波动0.009, book/cup暗光丢失"
+  - "文献研究：CLAHE(Zuiderveld 1994) + Gamma(Poynton 1998) + 逐类conf(Han 2025)"
+  - "方案决策记录：ai/decisions/Project Decision Log.md"
+  - "代码实现：preprocess_frame() CLAHE+Gamma + PER_CLASS_CONF 逐类阈值"
+  - "树莓派实测验证：暗光检出 conf=0.1: 4→6(+50%), conf=0.2: 1→3(+200%), 耗时不变"
+  - "实时测试：最暗场景 cup/bottle 可检出(0.2-0.3), person稳定"
 
 in_progress: []
 
@@ -35,12 +29,14 @@ blocked: []
 
 verification:
   performed:
-    - "实验一：3模型×4分辨率=12组FPS数据，yolov8m淘汰"
-    - "实验二：3场景×7置信度=21组检出数，拐点分析完成"
-    - "实验三：3光照×4类别=12组置信度，person稳定(0.009波动)，book/cup暗光丢失"
-    - "CSV数据已保存至outputs/目录"
-  pending: []
+    - "暗光 A/B 对比：优化前 vs CLAHE+Gamma，检出数+50-200%"
+    - "实时摄像头：--clahe --gamma 0.7 --per-class-conf 正常工作"
+    - "推理速度：69.2ms → 69.4ms，预处理开销可忽略"
+    - "Phase 2b 目标达成：暗光小物体从未检出→可检出"
+  pending:
+    - "Phase 3: 目标跟踪(SORT/ByteTrack) + 单目测距"
+    - "Phase 4: ONNX/ncnn 导出（6× 提升空间）"
 
 next_step:
-  - "进入 Phase 3：目标跟踪(SORT/ByteTrack) + 单目测距"
-  - "Phase 4 预留：ONNX/ncnn导出（PyTorch vs ncnn有6-10倍差距，值得做）"
+  - "提交所有改动到 GitHub"
+  - "进入 Phase 3：跟踪算法选型 + 单目测距方案设计"
