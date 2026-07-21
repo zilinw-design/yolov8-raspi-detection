@@ -60,9 +60,9 @@ def find_document_region(gray: np.ndarray) -> Optional[np.ndarray]:
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     edges = cv2.Canny(blur, 50, 150)
     # 膨胀连接断边
-    edges = cv2.dilate(edges, np.ones((3, 3), np.uint8), iterations=1)
+    edges = cv2.dilate(edges, np.ones((3, 3), np.uint8), iterations=3)
 
-    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return None
 
@@ -187,10 +187,14 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optiona
     peri = cv2.arcLength(best, True)
     circularity = (4 * np.pi * area) / (peri * peri) if peri > 0 else 0
     approx = cv2.approxPolyDP(best, 0.02 * peri, True)
-    if circularity > 0.85:
+    if circularity > 0.85 and len(approx) > 6:
         stype = "circle"
-    elif 3 <= len(approx) <= 5:
-        stype = "triangle" if len(approx) == 3 else "square"
+    elif len(approx) == 3:
+        stype = "triangle"
+    elif 4 <= len(approx) <= 5:
+        aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
+        rect_ratio = area / (rw * rh) if rw * rh > 0 else 0
+        stype = "square" if (aspect > 0.85 and rect_ratio > 0.85) else "polygon"
     else:
         stype = "polygon"
 

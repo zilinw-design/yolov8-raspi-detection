@@ -33,15 +33,17 @@ MIN_SHAPE_AREA = 5000
 # 检测管线（从 screen_measure.py 抽取，纯 OpenCV）
 # ═══════════════════════════════════════════════════
 def find_document_region(gray: np.ndarray) -> Optional[np.ndarray]:
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    edges = cv2.Canny(blur, 50, 150)
-    edges = cv2.dilate(edges, np.ones((3, 3), np.uint8), iterations=1)
-    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # OTSU 二值化 → 直接找黑色边框区域（比 Canny 更适合厚边框合成图像）
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return None
     ranked = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
     h, w = gray.shape
     min_area = (w * h) * 0.05
+    dbg_quad = sum(1 for c in ranked if len(cv2.approxPolyDP(c, 0.02*cv2.arcLength(c,True), True))==4)
+    logger.info("DEBUG: 总轮廓=%d 四边形候选=%d 最大面积=%.0f min=%.0f",
+                len(contours), dbg_quad, cv2.contourArea(ranked[0]) if ranked else 0, min_area)
     for c in ranked:
         area = cv2.contourArea(c)
         if area < min_area:
@@ -68,7 +70,26 @@ def find_document_region(gray: np.ndarray) -> Optional[np.ndarray]:
             sample_pts = pts + scaled * shrink[:, np.newaxis]
             sample_pts = np.clip(sample_pts.astype(int), 0, [w - 1, h - 1])
             all_dark = all(gray[sy, sx] <= 80 for sx, sy in sample_pts)
-            if all_dark:
+            if not all_dark:
+                continue
+
+            # [验证3] 边框中点内缩验证：四边中点向重心缩→检查是否全黑
+            ordered = order_points(pts)
+            midpoints = []
+            for k in range(4):
+                p1 = ordered[k]
+                p2 = ordered[(k + 1) % 4]
+                midpoints.append(((p1 + p2) / 2.0))
+            midpoints = np.array(midpoints)
+            mp_vectors = centroid - midpoints
+            mp_dists = np.linalg.norm(mp_vectors, axis=1)
+            mp_shrink = np.minimum(mp_dists * 0.03, 15)  # 边中点缩进更保守
+            mp_scaled = np.zeros_like(mp_vectors)
+            mp_nz = mp_dists > 0
+            mp_scaled[mp_nz] = mp_vectors[mp_nz] / mp_dists[mp_nz, np.newaxis]
+            mp_samples = np.clip((midpoints + mp_scaled * mp_shrink[:, np.newaxis]).astype(int), 0, [w-1, h-1])
+            edges_dark = all(gray[sy, sx] <= 80 for sx, sy in mp_samples)
+            if edges_dark:
                 return approx.astype(np.float32)
     return None
 
@@ -98,6 +119,12 @@ def four_point_transform(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
 
 def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optional[float], str, Optional[np.ndarray]]:
     """返回 (found, doc_box, pixel_size, shape_type, warped_img)。"""
+    # 统一缩放到最大 1200px（消除高 DPI 厚边框双边缘问题）
+    h, w = frame.shape[:2]
+    if max(h, w) > 1200:
+        scale = 1200.0 / max(h, w)
+        frame = cv2.resize(frame, (int(w * scale), int(h * scale)))
+
     # CLAHE
     lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
@@ -111,11 +138,15 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optiona
 
     warped = four_point_transform(frame, doc_corners)
     warped_gray = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
-    _, binary = cv2.threshold(warped_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+
+    # 裁掉边框区（外圈 20%），只在中心区域找图形
+    h2, w2 = warped_gray.shape
+    margin = int(min(h2, w2) * 0.20)
+    center = warped_gray[margin:h2-margin, margin:w2-margin]
+    _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return False, None, None, "", warped
-
     best = max(contours, key=cv2.contourArea)
     area = cv2.contourArea(best)
     if area < MIN_SHAPE_AREA:
@@ -128,14 +159,22 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optiona
     peri = cv2.arcLength(best, True)
     circularity = (4 * np.pi * area) / (peri * peri) if peri > 0 else 0
     approx = cv2.approxPolyDP(best, 0.02 * peri, True)
-    if circularity > 0.85:
+    if circularity > 0.85 and len(approx) > 6:
         stype = "circle"
     elif len(approx) == 3:
         stype = "triangle"
     elif 4 <= len(approx) <= 5:
-        stype = "square"
+        aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
+        rect_ratio = area / (rw * rh) if rw * rh > 0 else 0
+        if aspect > 0.85 and rect_ratio > 0.85:
+            stype = "square"
+        else:
+            stype = "polygon"
     else:
-        stype = "polygon"
+        # minAreaRect 不受旋转影响，旋转正方形仍可正确判定
+        aspect2 = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
+        rect_ratio2 = area / (rw * rh) if rw * rh > 0 else 0
+        stype = "square" if (aspect2 > 0.85 and rect_ratio2 > 0.85) else "polygon"
 
     box = np.intp(cv2.boxPoints(rect))
     return True, box, pixel_size, stype, warped

@@ -1,0 +1,1540 @@
+[
+    {
+        "filename": "1_single\\target_001.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "circle",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 6.03,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_002.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "triangle",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.88,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_003.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.42,
+                    5.15
+                ],
+                "size_inch": 5.8,
+                "angle": 48.1,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_004.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.4,
+                    7.13
+                ],
+                "size_inch": 4.27,
+                "angle": 56.98,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_005.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "triangle",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 6.21,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_006.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.35,
+                    6.05
+                ],
+                "size_inch": 5.67,
+                "angle": 51.88,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_007.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 5.9,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_008.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.46,
+                    6.33
+                ],
+                "size_inch": 5.28,
+                "angle": 25.35,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_009.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "triangle",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.64,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "1_single\\target_010.png",
+        "category": "basic_or_single",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 5.1,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_001.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.31,
+                    3.59
+                ],
+                "size_inch": 1.86,
+                "angle": 54.69,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.87,
+                    9.21
+                ],
+                "size_inch": 2.86,
+                "angle": 39.03,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    6.3,
+                    3.07
+                ],
+                "size_inch": 2.12,
+                "angle": 60.05,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.16,
+                    6.23
+                ],
+                "size_inch": 2.31,
+                "angle": 5.32,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_002.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.03,
+                    3.82
+                ],
+                "size_inch": 1.95,
+                "angle": 63.16,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.72,
+                    7.59
+                ],
+                "size_inch": 2.09,
+                "angle": 40.83,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.3,
+                    2.25
+                ],
+                "size_inch": 1.88,
+                "angle": 7.51,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.47,
+                    8.35
+                ],
+                "size_inch": 3.03,
+                "angle": 1.32,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.94,
+                    5.33
+                ],
+                "size_inch": 2.23,
+                "angle": 48.37,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_003.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.29,
+                    3.29
+                ],
+                "size_inch": 2.86,
+                "angle": 56.65,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    6.34,
+                    5.67
+                ],
+                "size_inch": 1.91,
+                "angle": 61.27,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.01,
+                    9.21
+                ],
+                "size_inch": 3.19,
+                "angle": 1.53,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.1,
+                    6.27
+                ],
+                "size_inch": 1.94,
+                "angle": 10.11,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    6.49,
+                    2.62
+                ],
+                "size_inch": 1.77,
+                "angle": 79.7,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_004.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.36,
+                    5.76
+                ],
+                "size_inch": 2.73,
+                "angle": 71.31,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.85,
+                    1.97
+                ],
+                "size_inch": 1.97,
+                "angle": 20.24,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.16,
+                    8.84
+                ],
+                "size_inch": 3.09,
+                "angle": 56.36,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.75,
+                    3.92
+                ],
+                "size_inch": 2.56,
+                "angle": 38.72,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_005.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.82,
+                    4.62
+                ],
+                "size_inch": 1.66,
+                "angle": 47.04,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.41,
+                    9.0
+                ],
+                "size_inch": 1.83,
+                "angle": 50.92,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.67,
+                    3.71
+                ],
+                "size_inch": 2.42,
+                "angle": 50.55,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.37,
+                    6.87
+                ],
+                "size_inch": 3.3,
+                "angle": 27.44,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_006.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    5.83,
+                    6.42
+                ],
+                "size_inch": 1.76,
+                "angle": 73.85,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.36,
+                    3.19
+                ],
+                "size_inch": 1.55,
+                "angle": 10.18,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.38,
+                    9.16
+                ],
+                "size_inch": 1.97,
+                "angle": 32.62,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.88,
+                    3.05
+                ],
+                "size_inch": 2.8,
+                "angle": 59.72,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_007.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.53,
+                    8.79
+                ],
+                "size_inch": 2.54,
+                "angle": 14.95,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.36,
+                    4.98
+                ],
+                "size_inch": 1.72,
+                "angle": 8.75,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.85,
+                    3.65
+                ],
+                "size_inch": 3.32,
+                "angle": 1.73,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_008.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.1,
+                    4.28
+                ],
+                "size_inch": 2.25,
+                "angle": 60.42,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.43,
+                    7.5
+                ],
+                "size_inch": 2.18,
+                "angle": 26.07,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.36,
+                    8.0
+                ],
+                "size_inch": 2.75,
+                "angle": 86.67,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_009.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.26,
+                    6.66
+                ],
+                "size_inch": 2.28,
+                "angle": 53.57,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.4,
+                    3.42
+                ],
+                "size_inch": 2.69,
+                "angle": 19.62,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.4,
+                    9.46
+                ],
+                "size_inch": 2.16,
+                "angle": 41.93,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.8,
+                    4.48
+                ],
+                "size_inch": 1.86,
+                "angle": 86.88,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "2_multi\\separated_010.png",
+        "category": "separated_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.64,
+                    3.22
+                ],
+                "size_inch": 1.76,
+                "angle": 30.82,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.83,
+                    5.98
+                ],
+                "size_inch": 2.98,
+                "angle": 53.27,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.37,
+                    9.34
+                ],
+                "size_inch": 2.11,
+                "angle": 38.36,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_001.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.79,
+                    7.55
+                ],
+                "size_inch": 3.77,
+                "angle": 36.39,
+                "number": 3
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.97,
+                    3.02
+                ],
+                "size_inch": 3.74,
+                "angle": 80.74,
+                "number": 2
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_002.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    8.82
+                ],
+                "size_inch": 3.89,
+                "angle": 56.61,
+                "number": 0
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.38,
+                    4.56
+                ],
+                "size_inch": 2.1,
+                "angle": 84.11,
+                "number": 7
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.43,
+                    4.52
+                ],
+                "size_inch": 2.65,
+                "angle": 41.0,
+                "number": 4
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_003.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.57,
+                    2.9
+                ],
+                "size_inch": 3.28,
+                "angle": 50.63,
+                "number": 4
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.25,
+                    7.52
+                ],
+                "size_inch": 3.97,
+                "angle": 7.01,
+                "number": 6
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_004.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.42,
+                    8.24
+                ],
+                "size_inch": 2.51,
+                "angle": 34.97,
+                "number": 5
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.4,
+                    3.9
+                ],
+                "size_inch": 2.43,
+                "angle": 23.08,
+                "number": 2
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_005.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    5.44,
+                    6.49
+                ],
+                "size_inch": 3.8,
+                "angle": 59.29,
+                "number": 8
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.92,
+                    3.13
+                ],
+                "size_inch": 3.16,
+                "angle": 0.57,
+                "number": 5
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_006.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.76,
+                    7.66
+                ],
+                "size_inch": 3.53,
+                "angle": 14.33,
+                "number": 2
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.03,
+                    3.58
+                ],
+                "size_inch": 2.76,
+                "angle": 40.28,
+                "number": 8
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_007.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.34,
+                    8.51
+                ],
+                "size_inch": 3.11,
+                "angle": 76.79,
+                "number": 1
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.09,
+                    3.89
+                ],
+                "size_inch": 3.46,
+                "angle": 82.55,
+                "number": 9
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.83,
+                    6.13
+                ],
+                "size_inch": 2.1,
+                "angle": 75.3,
+                "number": 5
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_008.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.34,
+                    6.97
+                ],
+                "size_inch": 2.01,
+                "angle": 42.92,
+                "number": 8
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.65,
+                    3.69
+                ],
+                "size_inch": 2.46,
+                "angle": 27.17,
+                "number": 6
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.26,
+                    9.12
+                ],
+                "size_inch": 2.92,
+                "angle": 31.68,
+                "number": 7
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.14,
+                    9.63
+                ],
+                "size_inch": 2.1,
+                "angle": 18.36,
+                "number": 3
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_009.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.93,
+                    8.51
+                ],
+                "size_inch": 3.69,
+                "angle": 28.66,
+                "number": 2
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.62,
+                    4.15
+                ],
+                "size_inch": 3.34,
+                "angle": 17.8,
+                "number": 7
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.84,
+                    3.16
+                ],
+                "size_inch": 2.96,
+                "angle": 88.13,
+                "number": 0
+            }
+        ]
+    },
+    {
+        "filename": "3_numbered\\numbered_010.png",
+        "category": "numbered_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.66,
+                    7.49
+                ],
+                "size_inch": 3.91,
+                "angle": 84.55,
+                "number": 5
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.56,
+                    3.68
+                ],
+                "size_inch": 2.37,
+                "angle": 54.21,
+                "number": 6
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.27,
+                    3.2
+                ],
+                "size_inch": 2.77,
+                "angle": 70.73,
+                "number": 9
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_001.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    5.14,
+                    6.01
+                ],
+                "size_inch": 2.46,
+                "angle": 22.85
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.9,
+                    7.61
+                ],
+                "size_inch": 3.35,
+                "angle": 81.09
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.69,
+                    3.37
+                ],
+                "size_inch": 3.99,
+                "angle": 24.9
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.37,
+                    5.52
+                ],
+                "size_inch": 2.43,
+                "angle": 84.33
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_002.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.51,
+                    6.31
+                ],
+                "size_inch": 4.44,
+                "angle": 73.02
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.25,
+                    2.67
+                ],
+                "size_inch": 2.42,
+                "angle": 33.18
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.4,
+                    2.68
+                ],
+                "size_inch": 2.2,
+                "angle": 55.53
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.9,
+                    8.79
+                ],
+                "size_inch": 3.12,
+                "angle": 49.46
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.95,
+                    8.94
+                ],
+                "size_inch": 3.68,
+                "angle": 43.98
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_003.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.12,
+                    2.59
+                ],
+                "size_inch": 2.98,
+                "angle": 38.97
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.27,
+                    5.74
+                ],
+                "size_inch": 4.01,
+                "angle": 8.23
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.36,
+                    3.55
+                ],
+                "size_inch": 2.09,
+                "angle": 15.87
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.28,
+                    7.63
+                ],
+                "size_inch": 3.16,
+                "angle": 44.96
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_004.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    6.07,
+                    3.26
+                ],
+                "size_inch": 2.24,
+                "angle": 61.85
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.2,
+                    3.3
+                ],
+                "size_inch": 3.76,
+                "angle": 61.19
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.99,
+                    5.18
+                ],
+                "size_inch": 2.3,
+                "angle": 17.71
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.54,
+                    6.85
+                ],
+                "size_inch": 3.33,
+                "angle": 18.74
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_005.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.65,
+                    2.72
+                ],
+                "size_inch": 2.23,
+                "angle": 6.19
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.18,
+                    4.76
+                ],
+                "size_inch": 2.82,
+                "angle": 59.46
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.65,
+                    2.87
+                ],
+                "size_inch": 3.62,
+                "angle": 11.11
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.8,
+                    6.39
+                ],
+                "size_inch": 3.15,
+                "angle": 58.97
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_006.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.7,
+                    5.71
+                ],
+                "size_inch": 4.02,
+                "angle": 39.96
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.6,
+                    8.64
+                ],
+                "size_inch": 3.09,
+                "angle": 62.38
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.32,
+                    7.51
+                ],
+                "size_inch": 3.81,
+                "angle": 53.76
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.72,
+                    3.37
+                ],
+                "size_inch": 3.76,
+                "angle": 82.25
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.83,
+                    4.06
+                ],
+                "size_inch": 2.64,
+                "angle": 44.33
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_007.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    2.7,
+                    8.81
+                ],
+                "size_inch": 3.57,
+                "angle": 19.53
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.77,
+                    7.87
+                ],
+                "size_inch": 2.41,
+                "angle": 33.55
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.87,
+                    5.16
+                ],
+                "size_inch": 3.07,
+                "angle": 34.76
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.36,
+                    2.86
+                ],
+                "size_inch": 3.03,
+                "angle": 24.98
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_008.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.53,
+                    8.98
+                ],
+                "size_inch": 2.22,
+                "angle": 5.14
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.78,
+                    6.11
+                ],
+                "size_inch": 4.23,
+                "angle": 36.71
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.59,
+                    4.06
+                ],
+                "size_inch": 2.77,
+                "angle": 62.28
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.62,
+                    3.21
+                ],
+                "size_inch": 2.95,
+                "angle": 33.58
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.56,
+                    8.11
+                ],
+                "size_inch": 2.06,
+                "angle": 10.05
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_009.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.61,
+                    6.13
+                ],
+                "size_inch": 3.97,
+                "angle": 57.71
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.26,
+                    4.12
+                ],
+                "size_inch": 2.79,
+                "angle": 87.88
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.99,
+                    7.57
+                ],
+                "size_inch": 3.12,
+                "angle": 88.26
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.1,
+                    2.35
+                ],
+                "size_inch": 2.1,
+                "angle": 21.96
+            }
+        ]
+    },
+    {
+        "filename": "4_overlapping\\overlap_010.png",
+        "category": "overlapping_squares",
+        "shapes": [
+            {
+                "type": "square",
+                "center": [
+                    3.39,
+                    4.68
+                ],
+                "size_inch": 2.46,
+                "angle": 24.83
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.48,
+                    2.61
+                ],
+                "size_inch": 3.31,
+                "angle": 48.13
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.22,
+                    5.53
+                ],
+                "size_inch": 2.14,
+                "angle": 77.98
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_40.9deg_001.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 40.9,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.83,
+                "angle": 40.98,
+                "number": 2
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_53.3deg_002.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 53.3,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.28,
+                "angle": 7.7,
+                "number": 6
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_47.1deg_003.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 47.1,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.53,
+                "angle": 25.13,
+                "number": 7
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_37.4deg_004.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 37.4,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.72,
+                "angle": 34.55,
+                "number": 2
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_43.1deg_005.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 43.1,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.32,
+                "angle": 17.74,
+                "number": 7
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_53.9deg_006.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 53.9,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.01,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_49.6deg_007.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 49.6,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.35,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_35.4deg_008.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 35.4,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.71,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_45.5deg_009.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 45.5,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.4,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_55.5deg_010.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 55.5,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.38,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    }
+]
