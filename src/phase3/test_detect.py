@@ -32,8 +32,7 @@ _DIGIT_TEMPLATES = None
 def _get_templates():
     global _DIGIT_TEMPLATES
     if _DIGIT_TEMPLATES is None:
-        _DIGIT_TEMPLATES = generate_templates(
-            "D:/Pi/sy2/ai_harness_framework/exam/dataset_nuedc_2025_v2")
+        _DIGIT_TEMPLATES = generate_templates()
     return _DIGIT_TEMPLATES
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
