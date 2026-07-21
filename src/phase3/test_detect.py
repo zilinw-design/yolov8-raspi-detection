@@ -21,6 +21,17 @@ from typing import Optional, Tuple
 
 import cv2
 import numpy as np
+from digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
+
+_DIGIT_TEMPLATES = None
+
+
+def _get_templates():
+    global _DIGIT_TEMPLATES
+    if _DIGIT_TEMPLATES is None:
+        _DIGIT_TEMPLATES = generate_templates(
+            "D:/Pi/sy2/ai_harness_framework/exam/dataset_nuedc_2025_v2")
+    return _DIGIT_TEMPLATES
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -263,7 +274,7 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
     margin = int(min(h2, w2) * 0.20)
     center = warped_gray[margin:h2-margin, margin:w2-margin]
     _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return False, None, [], warped
 
@@ -292,6 +303,19 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
 
     if not shapes:
         return False, None, [], warped
+
+    # 对正方形尝试数字识别（用连通域法提取孔洞）
+    templates = _get_templates()
+    for s in shapes:
+        if s["type"] == "square":
+            digit_region = extract_digit_from_square(binary, s["contour"], hierarchy, 0)
+            if digit_region is not None:
+                digit, conf = recognize_digit(digit_region, templates)
+                if conf > 0.3:
+                    s["digit"] = digit
+                    s["digit_conf"] = round(conf, 2)
+                    s["digit_conf"] = round(conf, 2)
+                    s["digit_conf"] = round(conf, 2)
 
     # 取最大图形的外接框作为整体检测框
     largest = max(shapes, key=lambda s: s["size_px"])
@@ -323,15 +347,19 @@ def process_image(image_path: str, output_dir: str = "outputs") -> None:
         min_square = None
         for s in shapes:
             cv2.drawContours(frame, [s["box"]], 0, (0, 0, 255), 2)
-            cv2.putText(frame, f"{s['type']} {s['size_px']:.0f}px",
+            label = f"{s['type']} {s['size_px']:.0f}px"
+            if s.get("digit") is not None:
+                label += f" [{s['digit']}]"
+            cv2.putText(frame, label,
                         (int(s["box"][0][0]), int(s["box"][0][1]) - 8),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
             if s["type"] == "square":
                 min_square = s if (min_square is None or s["area"] < min_square["area"]) else min_square
 
-        # 汇总
+        # 汇总（含数字）
         summary = f"{len(shapes)} shapes: " + ", ".join(
-            f"{s['type']} {s['size_px']:.0f}px" for s in shapes)
+            f"{s['type']} {s['size_px']:.0f}px" + (f"[{s['digit']}]" if s.get("digit") is not None else "")
+            for s in shapes)
         if min_square and len([s for s in shapes if s["type"]=="square"]) > 1:
             summary += f" | min square={min_square['size_px']:.0f}px"
         logger.info("  → %s", summary)
