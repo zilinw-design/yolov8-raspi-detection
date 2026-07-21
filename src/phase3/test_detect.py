@@ -21,7 +21,10 @@ from typing import Optional, Tuple
 
 import cv2
 import numpy as np
-from digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
+try:
+    from .digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
+except ImportError:
+    from digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
 
 _DIGIT_TEMPLATES = None
 
@@ -37,7 +40,7 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 # ── 检测参数（与 screen_measure.py 保持一致）──
-MIN_SHAPE_AREA = 5000
+MIN_SHAPE_AREA = 30000  # ~173px, 赛题正方 400+px
 
 
 # ═══════════════════════════════════════════════════
@@ -129,19 +132,14 @@ def four_point_transform(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
 
 
 def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
-    """凸包前置分类——统一用凸包，双epsilon区分圆和正方。"""
+    """独占通道分类——每个图形只依赖一个凸包不变量。"""
     hull = cv2.convexHull(contour)
     hull_area = cv2.contourArea(hull)
     if area <= 0:
         area = cv2.contourArea(contour)
 
     peri_hull = cv2.arcLength(hull, True)
-
-    # 圆/三角用紧 epsilon（保留弧线顶点）
-    approx_tight = cv2.approxPolyDP(hull, 0.02 * peri_hull, True)
-    # 正方/重叠用松 epsilon（合并缺角锯齿）
-    approx_loose = cv2.approxPolyDP(hull, 0.04 * peri_hull, True)
-
+    approx = cv2.approxPolyDP(hull, 0.03 * peri_hull, True)
     circularity = (4 * np.pi * hull_area) / (peri_hull * peri_hull) if peri_hull > 0 else 0
 
     rect = cv2.minAreaRect(hull)
@@ -150,16 +148,14 @@ def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
     aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
     rect_ratio = hull_area / (rw * rh) if rw * rh > 0 else 0
 
-    # 圆：紧epsilon保留弧顶点
-    if circularity > 0.85 and len(approx_tight) > 6:
+    # Layer 1: 圆 — circularity 独占（正方理论上限 0.785）
+    if circularity > 0.82:
         stype = "circle"
-    elif circularity > 0.78 and len(approx_tight) > 8:
-        stype = "circle"
-    # 三角：紧epsilon
-    elif len(approx_tight) <= 4 and circularity < 0.65:
+    # Layer 2: 三角 — 顶点数独占（凸包不改变拓扑）
+    elif len(approx) == 3:
         stype = "triangle"
-    # 正方/重叠：aspect+rect达标 或 松凸包4-5顶点（凸四边形=正方）
-    elif (aspect > 0.80 and rect_ratio > 0.80) or 4 <= len(approx_loose) <= 5:
+    # Layer 3: 正方 — 几何兜底 + 松凸包安全网
+    elif (aspect > 0.80 and rect_ratio > 0.80) or len(approx) <= 5:
         stype = "square"
     else:
         stype = "polygon"

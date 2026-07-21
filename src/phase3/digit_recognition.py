@@ -33,7 +33,7 @@ def generate_templates(dataset_path: str = None) -> dict:
         for digit in range(10):
             fig, ax = plt.subplots(figsize=(0.4, 0.6), dpi=100)
             ax.text(0.5, 0.5, str(digit), fontsize=24, ha='center', va='center',
-                    weight='bold', color='white', family='monospace')
+                    weight='bold', color='white', family='sans-serif')
             ax.set_facecolor('black')
             ax.axis('off')
             fig.tight_layout(pad=0)
@@ -92,22 +92,26 @@ def generate_templates(dataset_path: str = None) -> dict:
 
 def recognize_digit(region: np.ndarray, templates: dict = None) -> tuple:
     """
-    拓扑几何决策树——
-
-    Layer 1: 孔洞数 → 8 (2孔), 0/6/9 (1孔), 其余 (0孔)
-    Layer 2: 重心/孔洞位置 → 区分 0 vs 6 vs 9
-    Layer 3: 宽高比 → 1 (极瘦), 其余标记为 '?'
-
-    Args:
-        region: 白字黑底数字区域灰度图
-        templates: 未使用（保留兼容）
-
-    Returns:
-        (digit: int, confidence: float)
+    模板匹配优先（字体已知时 100%）+ 拓扑兜底（字体未知时）。
     """
     if region is None or region.size == 0:
         return -1, 0.0
 
+    # ====== Primary: 模板匹配（字体一致时置信度 > 0.9）======
+    if templates and len(templates) == 10:
+        region_resized = cv2.resize(region, TEMPLATE_SIZE)
+        best_d = -1
+        best_s = -1.0
+        for digit, template in templates.items():
+            result = cv2.matchTemplate(region_resized, template, cv2.TM_CCOEFF_NORMED)
+            _, max_val, _, _ = cv2.minMaxLoc(result)
+            if max_val > best_s:
+                best_s = max_val
+                best_d = digit
+        if best_s > 0.55:
+            return best_d, round(best_s, 2)
+
+    # ====== Fallback: 拓扑决策树 ======
     # 二值化确保黑白
     _, binary = cv2.threshold(region, 127, 255, cv2.THRESH_BINARY)
 
@@ -224,15 +228,15 @@ def extract_digit_from_square(binary: np.ndarray, square_contour: np.ndarray,
         return None
 
     # 裁掉边框（正方形边框像素 = 白，数字在内部）
-    m = max(2, int(min(w, h) * 0.06))
+    m = max(2, int(min(w, h) * 0.03))
     inner = roi[m:-m, m:-m] if m * 2 < min(h, w) else roi
     if inner.size == 0:
         return None
 
-    # 找黑色像素（数字 = 0/接近0）
-    black_mask = inner < 80  # OTSU 阈值附近，黑像素 < 80
+    # 找黑色像素（sans-serif 数字细，放宽到 100）
+    black_mask = inner < 100
     black_count = black_mask.sum()
-    if black_count < 20:
+    if black_count < 10:
         return None
 
     # 找黑色像素的连通域 bounding box
