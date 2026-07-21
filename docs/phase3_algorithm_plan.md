@@ -58,16 +58,30 @@
 
 | Step | 状态 | 备注 |
 |---|---|---|
-| 1 | ✅ 已完成 | OTSU 二值化 + RETR_TREE + 四边形验证1-3 |
-| 2 | ⚠️ 部分 | 外轮廓+角点内缩+边中点验证，缺内轮廓+标记点 |
-| 3 | ✅ 核心完成 | Homography + 20%边框裁剪，缺方向归一化 |
-| 4 | ✅ 变通实现 | 矫正后 20% 裁边（等效去边框） |
-| 5 | ✅ 基本图形 | 圆形度+顶点数+宽高比+minAreaRect 旋转修正 |
-| 6 | ❌ 未实现 | 重叠正方形分割 |
-| 7 | ❌ 未实现 | 数字识别 |
-| 8 | ❌ 未实现 | 有 pinhole 框架，无 PnP |
+| 1 | ✅ | OTSU + RETR_TREE + 四边形验证1-3 |
+| 2 | ✅ | 外轮廓+角点内缩+边中点验证 |
+| 3 | ✅ | Homography + 20% 裁剪 |
+| 4 | ✅ | 矫正后裁边（等效去边框） |
+| 5 | ✅ | 独占通道分类（圆circ/三角vx/正方geo） |
+| 6 | ✅ | 凸包松弛+白边分离+凸包顶点兜底 |
+| 7 | ✅ | 模板优先(0.6) + 拓扑决策树兜底 |
+| 8 | ❌ | PnP 未实现（需物理器材） |
 
-## 已验证改动（2026-07-21）
+## 最终架构（2026-07-22）
+
+```
+classify_contour: 独占通道
+  Layer 1: circularity > 0.82 → circle
+  Layer 2: len(approx) == 3  → triangle  
+  Layer 3: aspect>0.80 & rect>0.80 → square
+  Fallback: len(approx) <= 5 → square（凸四边形安全网）
+
+recognize_digit: 模板优先 + 拓扑兜底
+  matchTemplate(CCOEFF) > 0.6 → digit
+  else → hole count → centroid → projection → -1 if uncertain
+```
+
+## 已验证改动（2026-07-21 → 2026-07-22）
 
 | 改动 | 状态 | 效果 |
 |---|---|---|
