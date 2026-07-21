@@ -147,14 +147,93 @@ def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
     # 三角：紧epsilon
     elif len(approx_tight) <= 4 and circularity < 0.65:
         stype = "triangle"
-    # 正方/重叠：凸包已证明是凸的，minAreaRect 证它是方的，顶点数不重要
-    elif aspect > 0.80 and rect_ratio > 0.80:
+    # 正方/重叠：aspect+rect达标 或 松凸包4-5顶点（凸四边形=正方）
+    elif (aspect > 0.80 and rect_ratio > 0.80) or 4 <= len(approx_loose) <= 5:
         stype = "square"
     else:
         stype = "polygon"
 
     box = np.intp(cv2.boxPoints(rect))
     return {"type": stype, "size_px": size, "contour": contour, "box": box, "area": area}
+
+
+def split_by_convexity_defects(contour: np.ndarray, depth_ratio: float = 0.10) -> list:
+    """
+    凹点分割——对重叠/粘连的轮廓，用凸性缺陷检测寻找切割点。
+
+    原理（方案 A）：
+      凸包 = 补上重叠缺口的"理想形状"
+      原始轮廓在重叠处 = 凹入缺口
+      convexityDefects 返回每个凹入区域的 {起点, 终点, 最深处, 深度}
+      深度大的缺陷 = 真正的重叠切口 → 从最深点切分轮廓
+
+    参数：
+      depth_ratio: 缺陷深度/轮廓短边阈值，低于此值的微小凹入忽略（0.10 = 10%）
+
+    返回：子轮廓列表。如果无有效缺陷，返回仅含原轮廓的列表。
+    """
+    hull = cv2.convexHull(contour, returnPoints=False)  # 返回索引
+    h, w = cv2.minAreaRect(contour)[1]
+    min_side = min(h, w)
+
+    try:
+        defects = cv2.convexityDefects(contour, hull)
+    except Exception:
+        return [contour]
+
+    if defects is None or len(defects) == 0:
+        return [contour]
+
+    # 筛选深度足够的缺陷
+    defects = defects.reshape(-1, 4)
+    deep_defects = []
+    for s, e, f_idx, depth in defects:
+        if depth > min_side * depth_ratio:
+            far_pt = contour[int(f_idx)][0]
+            deep_defects.append((int(far_pt[0]), int(far_pt[1]), float(depth)))
+
+    if len(deep_defects) < 1:
+        return [contour]
+
+    # 取深度最大的 1-2 个缺陷点做切分
+    deep_defects.sort(key=lambda x: x[2], reverse=True)
+    split_pts = deep_defects[:2]  # 最多用 2 个最深缺陷
+
+    # 用 cv2.watershed 风格的距离变换做精确切分
+    # 简化版：用缺陷最深点连线做直线切割
+    mask = np.zeros((int(min_side * 2), int(min_side * 2)), dtype=np.uint8)
+    # 绘制轮廓到 mask
+    x, y, cw, ch = cv2.boundingRect(contour)
+    cv2.drawContours(mask, [contour - (x - 5, y - 5)], -1, 255, -1,
+                     offset=(-(x - 5), -(y - 5)))
+
+    # 距离变换 → 分水岭
+    dist = cv2.distanceTransform(mask, cv2.DIST_L2, 3)
+    cv2.normalize(dist, dist, 0, 255, cv2.NORM_MINMAX)
+    _, markers = cv2.connectedComponents(np.uint8(dist > 20))
+
+    # 用缺陷点作为分水岭 seed
+    seed_map = np.int32(markers)
+    for spx, spy, _ in split_pts:
+        sx, sy = spx - x + 5, spy - y + 5
+        if 0 <= sx < mask.shape[1] and 0 <= sy < mask.shape[0]:
+            seed_map[sy, sx] = seed_map.max() + 1
+
+    cv2.watershed(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR), seed_map)
+
+    # 提取分割后的连通区域
+    sub_contours = []
+    for label in range(2, seed_map.max() + 1):
+        region = np.uint8(seed_map == label) * 255
+        scnts, _ = cv2.findContours(region, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for sc in scnts:
+            if cv2.contourArea(sc) > 100:  # 最小面积过滤
+                # 偏移回原坐标
+                sc[:, 0, 0] += x - 5
+                sc[:, 0, 1] += y - 5
+                sub_contours.append(sc)
+
+    return sub_contours if len(sub_contours) >= 2 else [contour]
 
 
 def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, Optional[np.ndarray]]:
@@ -188,15 +267,28 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
     if not contours:
         return False, None, [], warped
 
-    # 对所有合格轮廓分类，返回图形列表
+    # 对所有合格轮廓分类，polygon 尝试凹点分割
     shapes = []
     for c in contours:
         area = cv2.contourArea(c)
         if area < MIN_SHAPE_AREA:
             continue
         stp = classify_contour(c, area)
-        if stp:
-            shapes.append(stp)
+        if not stp:
+            continue
+        # polygon → 尝试凹点分割 → 子轮廓重分类
+        if stp["type"] == "polygon":
+            subs = split_by_convexity_defects(c)
+            if len(subs) >= 2:
+                for sc in subs:
+                    sa = cv2.contourArea(sc)
+                    if sa < MIN_SHAPE_AREA:
+                        continue
+                    sstp = classify_contour(sc, sa)
+                    if sstp:
+                        shapes.append(sstp)
+                continue  # 成功分割=跳过原 polygon
+        shapes.append(stp)
 
     if not shapes:
         return False, None, [], warped
