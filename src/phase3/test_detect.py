@@ -117,7 +117,45 @@ def four_point_transform(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
     return cv2.warpPerspective(frame, M, (max_w, max_h))
 
 
-def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optional[float], str, Optional[np.ndarray]]:
+def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
+    """对单个轮廓分类 — 圆/三角用原始轮廓, 正方分支用凸包消除旋转锯齿。"""
+    if area <= 0:
+        area = cv2.contourArea(contour)
+
+    # ====== 原始轮廓做圆/三角判别 ======
+    peri_orig = cv2.arcLength(contour, True)
+    circularity = (4 * np.pi * area) / (peri_orig * peri_orig) if peri_orig > 0 else 0
+    approx_orig = cv2.approxPolyDP(contour, 0.02 * peri_orig, True)
+
+    # ====== 凸包做正方判别 ======
+    hull = cv2.convexHull(contour)
+    hull_area = cv2.contourArea(hull)
+    peri_hull = cv2.arcLength(hull, True)
+    approx_hull = cv2.approxPolyDP(hull, 0.03 * peri_hull, True)
+
+    rect = cv2.minAreaRect(hull)
+    rw, rh = rect[1]
+    size = max(rw, rh)
+    aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
+    rect_ratio = hull_area / (rw * rh) if rw * rh > 0 else 0
+
+    if circularity > 0.85 and len(approx_orig) > 6:
+        stype = "circle"
+    elif circularity > 0.78 and len(approx_orig) > 8:
+        # 缩放后像素化的圆（圆形度略降, 但顶点数远超正方）
+        stype = "circle"
+    elif len(approx_orig) <= 4 and circularity < 0.65:
+        stype = "triangle"
+    elif 4 <= len(approx_hull) <= 5:
+        stype = "square" if (aspect > 0.80 and rect_ratio > 0.80) else "polygon"
+    else:
+        stype = "square" if (aspect > 0.80 and rect_ratio > 0.80) else "polygon"
+
+    box = np.intp(cv2.boxPoints(rect))
+    return {"type": stype, "size_px": size, "contour": contour, "box": box, "area": area}
+
+
+def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, Optional[np.ndarray]]:
     """返回 (found, doc_box, pixel_size, shape_type, warped_img)。"""
     # 统一缩放到最大 1200px（消除高 DPI 厚边框双边缘问题）
     h, w = frame.shape[:2]
@@ -146,38 +184,25 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optiona
     _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
-        return False, None, None, "", warped
-    best = max(contours, key=cv2.contourArea)
-    area = cv2.contourArea(best)
-    if area < MIN_SHAPE_AREA:
-        return False, None, None, "", warped
+        return False, None, [], warped
 
-    rect = cv2.minAreaRect(best)
-    rw, rh = rect[1]
-    pixel_size = max(rw, rh)
+    # 对所有合格轮廓分类，返回图形列表
+    shapes = []
+    for c in contours:
+        area = cv2.contourArea(c)
+        if area < MIN_SHAPE_AREA:
+            continue
+        stp = classify_contour(c, area)
+        if stp:
+            shapes.append(stp)
 
-    peri = cv2.arcLength(best, True)
-    circularity = (4 * np.pi * area) / (peri * peri) if peri > 0 else 0
-    approx = cv2.approxPolyDP(best, 0.02 * peri, True)
-    if circularity > 0.85 and len(approx) > 6:
-        stype = "circle"
-    elif len(approx) == 3:
-        stype = "triangle"
-    elif 4 <= len(approx) <= 5:
-        aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
-        rect_ratio = area / (rw * rh) if rw * rh > 0 else 0
-        if aspect > 0.85 and rect_ratio > 0.85:
-            stype = "square"
-        else:
-            stype = "polygon"
-    else:
-        # minAreaRect 不受旋转影响，旋转正方形仍可正确判定
-        aspect2 = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
-        rect_ratio2 = area / (rw * rh) if rw * rh > 0 else 0
-        stype = "square" if (aspect2 > 0.85 and rect_ratio2 > 0.85) else "polygon"
+    if not shapes:
+        return False, None, [], warped
 
-    box = np.intp(cv2.boxPoints(rect))
-    return True, box, pixel_size, stype, warped
+    # 取最大图形的外接框作为整体检测框
+    largest = max(shapes, key=lambda s: s["size_px"])
+    box = np.intp(cv2.boxPoints(cv2.minAreaRect(largest["contour"])))
+    return True, box, shapes, warped
 
 
 # ═══════════════════════════════════════════════════
@@ -192,16 +217,27 @@ def process_image(image_path: str, output_dir: str = "outputs") -> None:
 
     logger.info("处理: %s (%dx%d)", Path(image_path).name, frame.shape[1], frame.shape[0])
 
-    found, box, psize, stype, warped = detect_shape(frame)
+    found, box, shapes, warped = detect_shape(frame)
 
-    if found:
-        # 在原图上画检测框
+    if found and shapes:
+        # 画文档边界
         cv2.drawContours(frame, [box], 0, (0, 255, 0), 2)
-        centroid = box.mean(axis=0).astype(int)
-        cv2.putText(frame, f"{stype} {psize:.0f}px",
-                    (centroid[0] - 60, centroid[1] - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-        logger.info("  → %s, %.0f px", stype, psize)
+        # 画每个检测到的图形
+        min_square = None
+        for s in shapes:
+            cv2.drawContours(frame, [s["box"]], 0, (0, 0, 255), 2)
+            cv2.putText(frame, f"{s['type']} {s['size_px']:.0f}px",
+                        (int(s["box"][0][0]), int(s["box"][0][1]) - 8),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+            if s["type"] == "square":
+                min_square = s if (min_square is None or s["area"] < min_square["area"]) else min_square
+
+        # 汇总
+        summary = f"{len(shapes)} shapes: " + ", ".join(
+            f"{s['type']} {s['size_px']:.0f}px" for s in shapes)
+        if min_square and len([s for s in shapes if s["type"]=="square"]) > 1:
+            summary += f" | min square={min_square['size_px']:.0f}px"
+        logger.info("  → %s", summary)
 
         # 保存矫正图
         if warped is not None:

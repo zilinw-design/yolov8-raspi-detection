@@ -86,10 +86,13 @@ def generate_basic_and_single(num_samples):
     folder = os.path.join(OUTPUT_DIR, "1_single")
     os.makedirs(folder, exist_ok=True)
     modes = ['center_circle', 'center_triangle', 'center_square', 'random_single_square']
-    
+    # 保证每种至少2个，剩余随机
+    assigned = modes * 2 + random.choices(modes, k=num_samples - 8)
+    random.shuffle(assigned)
+
     for i in range(num_samples):
         fig, ax = create_a4_canvas()
-        mode = random.choice(modes)
+        mode = assigned[i]
         # 修复 1：基本图形尺寸调整为 4.0 ~ 6.3 英寸 (约 10-16cm)
         size = random.uniform(4.0, 6.3) 
         shapes_info = []
@@ -101,7 +104,7 @@ def generate_basic_and_single(num_samples):
             shapes_info.append(shape_data)
         else:
             cx, cy = get_safe_random_pos(size)
-            angle = random.uniform(0, 90)
+            angle = random.uniform(0, 15)  # 比赛目标轻微角度
             shape_data = draw_shape(ax, 'square', cx, cy, size, angle)
             shapes_info.append(shape_data)
         
@@ -126,8 +129,8 @@ def generate_separated_squares(num_samples):
         placed_items, shapes_info = [], []
         
         for _ in range(num_shapes):
-            size = random.uniform(1.5, 3.5) # 为容纳多个，适当保持中等尺寸
-            angle = random.uniform(0, 90)
+            size = random.uniform(1.5, 3.5)
+            angle = random.uniform(0, 10)  # 分离正方形基本不旋
             for attempt in range(50):
                 cx, cy = get_safe_random_pos(size)
                 conflict = False
@@ -164,7 +167,7 @@ def generate_numbered_squares(num_samples):
         
         for idx in range(num_shapes):
             size = random.uniform(2.0, 4.0)
-            angle = random.uniform(0, 90)
+            angle = random.uniform(0, 10)  # 数字需正对
             for attempt in range(50):
                 cx, cy = get_safe_random_pos(size)
                 conflict = False
@@ -201,7 +204,7 @@ def generate_overlapping_squares(num_samples):
             for attempt in range(200):
                 size = random.uniform(2.0, 4.5)
                 cx, cy = get_safe_random_pos(size)
-                angle = random.uniform(0, 90)
+                angle = random.uniform(0, 20)  # 轻微角度产生重叠
                 rad = np.radians(angle)
                 cos_a, sin_a = np.cos(rad), np.sin(rad)
                 half = size / 2.0

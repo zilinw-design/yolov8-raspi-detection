@@ -4,13 +4,13 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "circle",
+                "type": "square",
                 "center": [
-                    4.13,
-                    5.84
+                    4.35,
+                    6.03
                 ],
-                "size_inch": 6.03,
-                "angle": 0,
+                "size_inch": 5.84,
+                "angle": 11.8,
                 "number": null
             }
         ]
@@ -20,13 +20,13 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "triangle",
+                "type": "square",
                 "center": [
-                    4.13,
-                    5.84
+                    3.63,
+                    5.0
                 ],
-                "size_inch": 4.88,
-                "angle": 0,
+                "size_inch": 4.89,
+                "angle": 4.45,
                 "number": null
             }
         ]
@@ -36,13 +36,13 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "square",
+                "type": "triangle",
                 "center": [
-                    4.42,
-                    5.15
+                    4.13,
+                    5.84
                 ],
-                "size_inch": 5.8,
-                "angle": 48.1,
+                "size_inch": 4.06,
+                "angle": 0,
                 "number": null
             }
         ]
@@ -52,13 +52,13 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "square",
+                "type": "circle",
                 "center": [
-                    4.4,
-                    7.13
+                    4.13,
+                    5.84
                 ],
-                "size_inch": 4.27,
-                "angle": 56.98,
+                "size_inch": 5.27,
+                "angle": 0,
                 "number": null
             }
         ]
@@ -68,12 +68,12 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "triangle",
+                "type": "square",
                 "center": [
                     4.13,
                     5.84
                 ],
-                "size_inch": 6.21,
+                "size_inch": 5.86,
                 "angle": 0,
                 "number": null
             }
@@ -84,13 +84,13 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "square",
+                "type": "triangle",
                 "center": [
-                    4.35,
-                    6.05
+                    4.13,
+                    5.84
                 ],
-                "size_inch": 5.67,
-                "angle": 51.88,
+                "size_inch": 4.75,
+                "angle": 0,
                 "number": null
             }
         ]
@@ -105,7 +105,7 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 5.9,
+                "size_inch": 4.72,
                 "angle": 0,
                 "number": null
             }
@@ -118,11 +118,11 @@
             {
                 "type": "square",
                 "center": [
-                    4.46,
-                    6.33
+                    4.33,
+                    5.65
                 ],
-                "size_inch": 5.28,
-                "angle": 25.35,
+                "size_inch": 5.05,
+                "angle": 4.28,
                 "number": null
             }
         ]
@@ -132,12 +132,12 @@
         "category": "basic_or_single",
         "shapes": [
             {
-                "type": "triangle",
+                "type": "circle",
                 "center": [
                     4.13,
                     5.84
                 ],
-                "size_inch": 4.64,
+                "size_inch": 4.75,
                 "angle": 0,
                 "number": null
             }
@@ -153,7 +153,7 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 5.1,
+                "size_inch": 5.68,
                 "angle": 0,
                 "number": null
             }
@@ -166,41 +166,41 @@
             {
                 "type": "square",
                 "center": [
-                    2.31,
-                    3.59
+                    4.79,
+                    2.66
                 ],
-                "size_inch": 1.86,
-                "angle": 54.69,
+                "size_inch": 2.36,
+                "angle": 9.96,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    4.87,
-                    9.21
+                    3.93,
+                    9.48
                 ],
-                "size_inch": 2.86,
-                "angle": 39.03,
+                "size_inch": 1.77,
+                "angle": 6.67,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    6.3,
-                    3.07
+                    2.89,
+                    7.02
                 ],
-                "size_inch": 2.12,
-                "angle": 60.05,
+                "size_inch": 2.7,
+                "angle": 2.52,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.16,
-                    6.23
+                    5.93,
+                    6.64
                 ],
-                "size_inch": 2.31,
-                "angle": 5.32,
+                "size_inch": 2.47,
+                "angle": 8.31,
                 "number": null
             }
         ]
@@ -212,51 +212,41 @@
             {
                 "type": "square",
                 "center": [
-                    2.03,
-                    3.82
+                    4.3,
+                    5.68
                 ],
-                "size_inch": 1.95,
-                "angle": 63.16,
+                "size_inch": 2.0,
+                "angle": 5.51,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.72,
-                    7.59
+                    4.68,
+                    2.79
                 ],
-                "size_inch": 2.09,
-                "angle": 40.83,
+                "size_inch": 3.11,
+                "angle": 7.0,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.3,
-                    2.25
+                    2.37,
+                    7.92
                 ],
-                "size_inch": 1.88,
-                "angle": 7.51,
+                "size_inch": 2.76,
+                "angle": 5.3,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.47,
-                    8.35
+                    5.75,
+                    9.27
                 ],
-                "size_inch": 3.03,
-                "angle": 1.32,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    3.94,
-                    5.33
-                ],
-                "size_inch": 2.23,
-                "angle": 48.37,
+                "size_inch": 1.85,
+                "angle": 1.58,
                 "number": null
             }
         ]
@@ -268,51 +258,31 @@
             {
                 "type": "square",
                 "center": [
-                    3.29,
-                    3.29
+                    2.88,
+                    8.46
                 ],
-                "size_inch": 2.86,
-                "angle": 56.65,
+                "size_inch": 3.41,
+                "angle": 8.76,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    6.34,
-                    5.67
+                    5.42,
+                    3.97
                 ],
-                "size_inch": 1.91,
-                "angle": 61.27,
+                "size_inch": 3.43,
+                "angle": 1.55,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    4.01,
-                    9.21
+                    2.02,
+                    3.2
                 ],
-                "size_inch": 3.19,
-                "angle": 1.53,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    3.1,
-                    6.27
-                ],
-                "size_inch": 1.94,
-                "angle": 10.11,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    6.49,
-                    2.62
-                ],
-                "size_inch": 1.77,
-                "angle": 79.7,
+                "size_inch": 2.0,
+                "angle": 6.21,
                 "number": null
             }
         ]
@@ -324,41 +294,31 @@
             {
                 "type": "square",
                 "center": [
-                    3.36,
-                    5.76
+                    2.2,
+                    4.78
                 ],
-                "size_inch": 2.73,
-                "angle": 71.31,
+                "size_inch": 1.96,
+                "angle": 3.88,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    3.85,
-                    1.97
+                    5.12,
+                    2.87
                 ],
-                "size_inch": 1.97,
-                "angle": 20.24,
+                "size_inch": 3.16,
+                "angle": 3.31,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.16,
-                    8.84
+                    5.01,
+                    7.77
                 ],
-                "size_inch": 3.09,
-                "angle": 56.36,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.75,
-                    3.92
-                ],
-                "size_inch": 2.56,
-                "angle": 38.72,
+                "size_inch": 3.2,
+                "angle": 5.82,
                 "number": null
             }
         ]
@@ -370,41 +330,31 @@
             {
                 "type": "square",
                 "center": [
-                    2.82,
-                    4.62
+                    3.2,
+                    4.89
                 ],
-                "size_inch": 1.66,
-                "angle": 47.04,
+                "size_inch": 1.98,
+                "angle": 2.02,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    3.41,
-                    9.0
+                    5.54,
+                    4.99
                 ],
-                "size_inch": 1.83,
-                "angle": 50.92,
+                "size_inch": 1.91,
+                "angle": 5.02,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.67,
-                    3.71
+                    5.09,
+                    8.0
                 ],
-                "size_inch": 2.42,
-                "angle": 50.55,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.37,
-                    6.87
-                ],
-                "size_inch": 3.3,
-                "angle": 27.44,
+                "size_inch": 2.57,
+                "angle": 2.92,
                 "number": null
             }
         ]
@@ -417,40 +367,30 @@
                 "type": "square",
                 "center": [
                     5.83,
-                    6.42
+                    4.04
                 ],
-                "size_inch": 1.76,
-                "angle": 73.85,
+                "size_inch": 3.02,
+                "angle": 9.16,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    3.36,
-                    3.19
+                    3.5,
+                    6.44
                 ],
-                "size_inch": 1.55,
-                "angle": 10.18,
+                "size_inch": 1.96,
+                "angle": 7.58,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.38,
-                    9.16
+                    5.04,
+                    9.18
                 ],
-                "size_inch": 1.97,
-                "angle": 32.62,
-                "number": null
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.88,
-                    3.05
-                ],
-                "size_inch": 2.8,
-                "angle": 59.72,
+                "size_inch": 3.21,
+                "angle": 5.87,
                 "number": null
             }
         ]
@@ -462,31 +402,41 @@
             {
                 "type": "square",
                 "center": [
-                    3.53,
-                    8.79
+                    2.94,
+                    4.49
                 ],
-                "size_inch": 2.54,
-                "angle": 14.95,
+                "size_inch": 2.84,
+                "angle": 4.28,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.36,
-                    4.98
+                    4.48,
+                    7.95
                 ],
-                "size_inch": 1.72,
-                "angle": 8.75,
+                "size_inch": 2.48,
+                "angle": 7.63,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.85,
-                    3.65
+                    1.74,
+                    7.75
                 ],
-                "size_inch": 3.32,
-                "angle": 1.73,
+                "size_inch": 1.59,
+                "angle": 4.94,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.98,
+                    2.38
+                ],
+                "size_inch": 2.37,
+                "angle": 7.46,
                 "number": null
             }
         ]
@@ -498,31 +448,31 @@
             {
                 "type": "square",
                 "center": [
-                    4.1,
-                    4.28
+                    2.57,
+                    4.19
                 ],
-                "size_inch": 2.25,
-                "angle": 60.42,
+                "size_inch": 1.91,
+                "angle": 7.34,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.43,
-                    7.5
+                    4.99,
+                    8.29
                 ],
-                "size_inch": 2.18,
-                "angle": 26.07,
+                "size_inch": 2.2,
+                "angle": 1.16,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.36,
-                    8.0
+                    5.7,
+                    2.76
                 ],
-                "size_inch": 2.75,
-                "angle": 86.67,
+                "size_inch": 2.94,
+                "angle": 4.7,
                 "number": null
             }
         ]
@@ -534,41 +484,51 @@
             {
                 "type": "square",
                 "center": [
-                    4.26,
-                    6.66
+                    3.06,
+                    6.8
                 ],
-                "size_inch": 2.28,
-                "angle": 53.57,
+                "size_inch": 1.67,
+                "angle": 4.66,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    3.4,
-                    3.42
+                    6.09,
+                    9.54
                 ],
-                "size_inch": 2.69,
-                "angle": 19.62,
+                "size_inch": 2.3,
+                "angle": 6.44,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.4,
-                    9.46
+                    4.8,
+                    3.64
                 ],
-                "size_inch": 2.16,
-                "angle": 41.93,
+                "size_inch": 2.89,
+                "angle": 9.31,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.8,
-                    4.48
+                    2.01,
+                    4.23
                 ],
-                "size_inch": 1.86,
-                "angle": 86.88,
+                "size_inch": 2.0,
+                "angle": 7.99,
+                "number": null
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.21,
+                    9.24
+                ],
+                "size_inch": 1.84,
+                "angle": 9.41,
                 "number": null
             }
         ]
@@ -580,31 +540,31 @@
             {
                 "type": "square",
                 "center": [
-                    2.64,
-                    3.22
+                    4.12,
+                    8.12
                 ],
-                "size_inch": 1.76,
-                "angle": 30.82,
+                "size_inch": 2.62,
+                "angle": 8.37,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    5.83,
-                    5.98
+                    6.03,
+                    3.46
                 ],
-                "size_inch": 2.98,
-                "angle": 53.27,
+                "size_inch": 1.93,
+                "angle": 6.63,
                 "number": null
             },
             {
                 "type": "square",
                 "center": [
-                    2.37,
-                    9.34
+                    3.25,
+                    4.39
                 ],
-                "size_inch": 2.11,
-                "angle": 38.36,
+                "size_inch": 2.67,
+                "angle": 3.63,
                 "number": null
             }
         ]
@@ -616,22 +576,22 @@
             {
                 "type": "square",
                 "center": [
-                    2.79,
-                    7.55
+                    3.67,
+                    2.57
                 ],
-                "size_inch": 3.77,
-                "angle": 36.39,
-                "number": 3
+                "size_inch": 2.28,
+                "angle": 1.96,
+                "number": 9
             },
             {
                 "type": "square",
                 "center": [
-                    4.97,
-                    3.02
+                    4.21,
+                    6.73
                 ],
-                "size_inch": 3.74,
-                "angle": 80.74,
-                "number": 2
+                "size_inch": 3.52,
+                "angle": 1.25,
+                "number": 4
             }
         ]
     },
@@ -642,32 +602,32 @@
             {
                 "type": "square",
                 "center": [
-                    4.13,
-                    8.82
+                    5.4,
+                    3.02
                 ],
-                "size_inch": 3.89,
-                "angle": 56.61,
-                "number": 0
+                "size_inch": 3.09,
+                "angle": 5.56,
+                "number": 6
             },
             {
                 "type": "square",
                 "center": [
-                    5.38,
-                    4.56
+                    3.86,
+                    6.32
                 ],
-                "size_inch": 2.1,
-                "angle": 84.11,
-                "number": 7
+                "size_inch": 3.61,
+                "angle": 8.81,
+                "number": 8
             },
             {
                 "type": "square",
                 "center": [
-                    2.43,
-                    4.52
+                    5.94,
+                    9.17
                 ],
-                "size_inch": 2.65,
-                "angle": 41.0,
-                "number": 4
+                "size_inch": 2.64,
+                "angle": 0.74,
+                "number": 1
             }
         ]
     },
@@ -678,22 +638,22 @@
             {
                 "type": "square",
                 "center": [
-                    3.57,
-                    2.9
+                    5.5,
+                    3.61
                 ],
-                "size_inch": 3.28,
-                "angle": 50.63,
-                "number": 4
+                "size_inch": 2.71,
+                "angle": 8.92,
+                "number": 9
             },
             {
                 "type": "square",
                 "center": [
-                    5.25,
-                    7.52
+                    2.64,
+                    2.45
                 ],
-                "size_inch": 3.97,
-                "angle": 7.01,
-                "number": 6
+                "size_inch": 2.21,
+                "angle": 0.94,
+                "number": 1
             }
         ]
     },
@@ -704,22 +664,32 @@
             {
                 "type": "square",
                 "center": [
-                    4.42,
-                    8.24
+                    2.33,
+                    9.53
                 ],
-                "size_inch": 2.51,
-                "angle": 34.97,
+                "size_inch": 2.46,
+                "angle": 7.38,
+                "number": 1
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.54,
+                    5.2
+                ],
+                "size_inch": 3.28,
+                "angle": 6.0,
                 "number": 5
             },
             {
                 "type": "square",
                 "center": [
-                    5.4,
-                    3.9
+                    5.61,
+                    7.94
                 ],
-                "size_inch": 2.43,
-                "angle": 23.08,
-                "number": 2
+                "size_inch": 2.7,
+                "angle": 8.65,
+                "number": 0
             }
         ]
     },
@@ -730,22 +700,22 @@
             {
                 "type": "square",
                 "center": [
-                    5.44,
-                    6.49
+                    5.24,
+                    8.14
                 ],
-                "size_inch": 3.8,
-                "angle": 59.29,
-                "number": 8
+                "size_inch": 2.3,
+                "angle": 2.25,
+                "number": 2
             },
             {
                 "type": "square",
                 "center": [
-                    2.92,
-                    3.13
+                    5.4,
+                    5.51
                 ],
-                "size_inch": 3.16,
-                "angle": 0.57,
-                "number": 5
+                "size_inch": 2.09,
+                "angle": 3.25,
+                "number": 0
             }
         ]
     },
@@ -756,22 +726,22 @@
             {
                 "type": "square",
                 "center": [
-                    2.76,
-                    7.66
+                    3.57,
+                    9.32
                 ],
-                "size_inch": 3.53,
-                "angle": 14.33,
-                "number": 2
+                "size_inch": 2.57,
+                "angle": 4.05,
+                "number": 1
             },
             {
                 "type": "square",
                 "center": [
-                    5.03,
-                    3.58
+                    2.55,
+                    4.53
                 ],
-                "size_inch": 2.76,
-                "angle": 40.28,
-                "number": 8
+                "size_inch": 2.7,
+                "angle": 5.52,
+                "number": 0
             }
         ]
     },
@@ -782,32 +752,32 @@
             {
                 "type": "square",
                 "center": [
-                    4.34,
-                    8.51
+                    3.03,
+                    8.35
                 ],
-                "size_inch": 3.11,
-                "angle": 76.79,
+                "size_inch": 3.23,
+                "angle": 0.24,
+                "number": 0
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.44,
+                    4.85
+                ],
+                "size_inch": 2.9,
+                "angle": 3.77,
                 "number": 1
             },
             {
                 "type": "square",
                 "center": [
-                    5.09,
-                    3.89
+                    3.21,
+                    2.38
                 ],
-                "size_inch": 3.46,
-                "angle": 82.55,
-                "number": 9
-            },
-            {
-                "type": "square",
-                "center": [
-                    2.83,
-                    6.13
-                ],
-                "size_inch": 2.1,
-                "angle": 75.3,
-                "number": 5
+                "size_inch": 2.04,
+                "angle": 2.24,
+                "number": 3
             }
         ]
     },
@@ -818,42 +788,22 @@
             {
                 "type": "square",
                 "center": [
-                    3.34,
-                    6.97
+                    4.16,
+                    8.6
                 ],
-                "size_inch": 2.01,
-                "angle": 42.92,
-                "number": 8
+                "size_inch": 3.63,
+                "angle": 1.21,
+                "number": 4
             },
             {
                 "type": "square",
                 "center": [
-                    4.65,
-                    3.69
+                    3.79,
+                    5.08
                 ],
-                "size_inch": 2.46,
-                "angle": 27.17,
-                "number": 6
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.26,
-                    9.12
-                ],
-                "size_inch": 2.92,
-                "angle": 31.68,
-                "number": 7
-            },
-            {
-                "type": "square",
-                "center": [
-                    2.14,
-                    9.63
-                ],
-                "size_inch": 2.1,
-                "angle": 18.36,
-                "number": 3
+                "size_inch": 2.21,
+                "angle": 0.19,
+                "number": 1
             }
         ]
     },
@@ -864,32 +814,42 @@
             {
                 "type": "square",
                 "center": [
-                    2.93,
-                    8.51
+                    5.09,
+                    5.37
                 ],
-                "size_inch": 3.69,
-                "angle": 28.66,
-                "number": 2
+                "size_inch": 3.43,
+                "angle": 5.29,
+                "number": 6
             },
             {
                 "type": "square",
                 "center": [
-                    2.62,
-                    4.15
+                    2.34,
+                    7.92
                 ],
-                "size_inch": 3.34,
-                "angle": 17.8,
+                "size_inch": 2.47,
+                "angle": 8.65,
                 "number": 7
             },
             {
                 "type": "square",
                 "center": [
-                    5.84,
-                    3.16
+                    6.19,
+                    8.62
                 ],
-                "size_inch": 2.96,
-                "angle": 88.13,
+                "size_inch": 2.07,
+                "angle": 6.82,
                 "number": 0
+            },
+            {
+                "type": "square",
+                "center": [
+                    2.94,
+                    2.65
+                ],
+                "size_inch": 2.74,
+                "angle": 5.73,
+                "number": 3
             }
         ]
     },
@@ -900,32 +860,22 @@
             {
                 "type": "square",
                 "center": [
-                    4.66,
-                    7.49
+                    5.33,
+                    4.51
                 ],
-                "size_inch": 3.91,
-                "angle": 84.55,
+                "size_inch": 3.39,
+                "angle": 5.59,
+                "number": 8
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.24,
+                    8.62
+                ],
+                "size_inch": 3.78,
+                "angle": 4.25,
                 "number": 5
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.56,
-                    3.68
-                ],
-                "size_inch": 2.37,
-                "angle": 54.21,
-                "number": 6
-            },
-            {
-                "type": "square",
-                "center": [
-                    2.27,
-                    3.2
-                ],
-                "size_inch": 2.77,
-                "angle": 70.73,
-                "number": 9
             }
         ]
     },
@@ -936,38 +886,47 @@
             {
                 "type": "square",
                 "center": [
+                    5.05,
+                    5.79
+                ],
+                "size_inch": 4.36,
+                "angle": 19.97
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.25,
+                    7.55
+                ],
+                "size_inch": 3.97,
+                "angle": 13.64
+            },
+            {
+                "type": "square",
+                "center": [
+                    3.01,
+                    3.9
+                ],
+                "size_inch": 3.8,
+                "angle": 6.15
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.77,
+                    2.84
+                ],
+                "size_inch": 2.69,
+                "angle": 19.11
+            },
+            {
+                "type": "square",
+                "center": [
                     5.14,
-                    6.01
+                    8.95
                 ],
-                "size_inch": 2.46,
-                "angle": 22.85
-            },
-            {
-                "type": "square",
-                "center": [
-                    3.9,
-                    7.61
-                ],
-                "size_inch": 3.35,
-                "angle": 81.09
-            },
-            {
-                "type": "square",
-                "center": [
-                    4.69,
-                    3.37
-                ],
-                "size_inch": 3.99,
-                "angle": 24.9
-            },
-            {
-                "type": "square",
-                "center": [
-                    2.37,
-                    5.52
-                ],
-                "size_inch": 2.43,
-                "angle": 84.33
+                "size_inch": 3.44,
+                "angle": 14.24
             }
         ]
     },
@@ -978,47 +937,47 @@
             {
                 "type": "square",
                 "center": [
-                    4.51,
-                    6.31
+                    2.65,
+                    3.5
                 ],
-                "size_inch": 4.44,
-                "angle": 73.02
+                "size_inch": 3.36,
+                "angle": 3.86
             },
             {
                 "type": "square",
                 "center": [
-                    5.25,
-                    2.67
+                    4.3,
+                    2.26
                 ],
-                "size_inch": 2.42,
-                "angle": 33.18
+                "size_inch": 2.61,
+                "angle": 1.86
             },
             {
                 "type": "square",
                 "center": [
-                    3.4,
-                    2.68
+                    3.37,
+                    7.16
                 ],
-                "size_inch": 2.2,
-                "angle": 55.53
+                "size_inch": 4.36,
+                "angle": 19.06
             },
             {
                 "type": "square",
                 "center": [
-                    2.9,
-                    8.79
+                    4.85,
+                    4.99
                 ],
-                "size_inch": 3.12,
-                "angle": 49.46
+                "size_inch": 2.83,
+                "angle": 7.35
             },
             {
                 "type": "square",
                 "center": [
-                    4.95,
-                    8.94
+                    5.67,
+                    6.53
                 ],
-                "size_inch": 3.68,
-                "angle": 43.98
+                "size_inch": 3.35,
+                "angle": 0.43
             }
         ]
     },
@@ -1029,38 +988,29 @@
             {
                 "type": "square",
                 "center": [
-                    4.12,
-                    2.59
+                    4.18,
+                    8.14
                 ],
-                "size_inch": 2.98,
-                "angle": 38.97
+                "size_inch": 4.28,
+                "angle": 18.16
             },
             {
                 "type": "square",
                 "center": [
-                    4.27,
-                    5.74
+                    3.37,
+                    4.53
                 ],
-                "size_inch": 4.01,
-                "angle": 8.23
+                "size_inch": 4.34,
+                "angle": 4.31
             },
             {
                 "type": "square",
                 "center": [
-                    2.36,
-                    3.55
+                    5.84,
+                    4.54
                 ],
-                "size_inch": 2.09,
-                "angle": 15.87
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.28,
-                    7.63
-                ],
-                "size_inch": 3.16,
-                "angle": 44.96
+                "size_inch": 3.04,
+                "angle": 12.61
             }
         ]
     },
@@ -1071,38 +1021,38 @@
             {
                 "type": "square",
                 "center": [
-                    6.07,
-                    3.26
+                    4.17,
+                    6.67
                 ],
-                "size_inch": 2.24,
-                "angle": 61.85
+                "size_inch": 2.73,
+                "angle": 7.01
             },
             {
                 "type": "square",
                 "center": [
-                    3.2,
-                    3.3
+                    5.22,
+                    8.07
                 ],
-                "size_inch": 3.76,
-                "angle": 61.19
+                "size_inch": 2.69,
+                "angle": 3.79
             },
             {
                 "type": "square",
                 "center": [
-                    5.99,
-                    5.18
+                    2.43,
+                    5.35
                 ],
-                "size_inch": 2.3,
-                "angle": 17.71
+                "size_inch": 2.95,
+                "angle": 11.87
             },
             {
                 "type": "square",
                 "center": [
-                    4.54,
-                    6.85
+                    4.63,
+                    4.54
                 ],
-                "size_inch": 3.33,
-                "angle": 18.74
+                "size_inch": 2.46,
+                "angle": 3.22
             }
         ]
     },
@@ -1113,38 +1063,29 @@
             {
                 "type": "square",
                 "center": [
-                    2.65,
-                    2.72
+                    4.24,
+                    5.45
                 ],
-                "size_inch": 2.23,
-                "angle": 6.19
+                "size_inch": 3.3,
+                "angle": 3.19
             },
             {
                 "type": "square",
                 "center": [
-                    3.18,
-                    4.76
+                    4.8,
+                    7.57
                 ],
-                "size_inch": 2.82,
-                "angle": 59.46
-            },
-            {
-                "type": "square",
-                "center": [
-                    4.65,
-                    2.87
-                ],
-                "size_inch": 3.62,
+                "size_inch": 3.53,
                 "angle": 11.11
             },
             {
                 "type": "square",
                 "center": [
-                    2.8,
-                    6.39
+                    2.53,
+                    7.79
                 ],
-                "size_inch": 3.15,
-                "angle": 58.97
+                "size_inch": 2.17,
+                "angle": 17.62
             }
         ]
     },
@@ -1155,47 +1096,29 @@
             {
                 "type": "square",
                 "center": [
-                    3.7,
-                    5.71
+                    3.29,
+                    3.17
                 ],
-                "size_inch": 4.02,
-                "angle": 39.96
+                "size_inch": 2.94,
+                "angle": 4.25
             },
             {
                 "type": "square",
                 "center": [
-                    2.6,
-                    8.64
+                    2.99,
+                    5.76
                 ],
-                "size_inch": 3.09,
-                "angle": 62.38
+                "size_inch": 2.8,
+                "angle": 16.72
             },
             {
                 "type": "square",
                 "center": [
-                    5.32,
-                    7.51
+                    5.47,
+                    5.14
                 ],
-                "size_inch": 3.81,
-                "angle": 53.76
-            },
-            {
-                "type": "square",
-                "center": [
-                    3.72,
-                    3.37
-                ],
-                "size_inch": 3.76,
-                "angle": 82.25
-            },
-            {
-                "type": "square",
-                "center": [
-                    5.83,
-                    4.06
-                ],
-                "size_inch": 2.64,
-                "angle": 44.33
+                "size_inch": 3.8,
+                "angle": 15.59
             }
         ]
     },
@@ -1206,38 +1129,38 @@
             {
                 "type": "square",
                 "center": [
-                    2.7,
-                    8.81
+                    4.05,
+                    3.18
                 ],
-                "size_inch": 3.57,
-                "angle": 19.53
+                "size_inch": 4.14,
+                "angle": 4.24
             },
             {
                 "type": "square",
                 "center": [
-                    4.77,
-                    7.87
+                    2.79,
+                    5.35
                 ],
-                "size_inch": 2.41,
-                "angle": 33.55
+                "size_inch": 3.3,
+                "angle": 1.98
             },
             {
                 "type": "square",
                 "center": [
-                    4.87,
-                    5.16
+                    5.18,
+                    6.84
                 ],
-                "size_inch": 3.07,
-                "angle": 34.76
+                "size_inch": 2.33,
+                "angle": 11.64
             },
             {
                 "type": "square",
                 "center": [
-                    4.36,
-                    2.86
+                    2.84,
+                    7.84
                 ],
-                "size_inch": 3.03,
-                "angle": 24.98
+                "size_inch": 2.53,
+                "angle": 16.06
             }
         ]
     },
@@ -1248,47 +1171,47 @@
             {
                 "type": "square",
                 "center": [
-                    4.53,
-                    8.98
+                    4.28,
+                    6.75
                 ],
-                "size_inch": 2.22,
-                "angle": 5.14
+                "size_inch": 2.03,
+                "angle": 0.81
             },
             {
                 "type": "square",
                 "center": [
-                    4.78,
-                    6.11
-                ],
-                "size_inch": 4.23,
-                "angle": 36.71
-            },
-            {
-                "type": "square",
-                "center": [
-                    3.59,
-                    4.06
+                    3.06,
+                    8.67
                 ],
                 "size_inch": 2.77,
-                "angle": 62.28
+                "angle": 13.1
             },
             {
                 "type": "square",
                 "center": [
-                    5.62,
-                    3.21
+                    3.65,
+                    4.19
                 ],
-                "size_inch": 2.95,
-                "angle": 33.58
+                "size_inch": 4.35,
+                "angle": 15.19
             },
             {
                 "type": "square",
                 "center": [
-                    2.56,
-                    8.11
+                    2.48,
+                    6.23
                 ],
-                "size_inch": 2.06,
-                "angle": 10.05
+                "size_inch": 3.17,
+                "angle": 14.58
+            },
+            {
+                "type": "square",
+                "center": [
+                    5.95,
+                    7.77
+                ],
+                "size_inch": 2.07,
+                "angle": 4.8
             }
         ]
     },
@@ -1299,38 +1222,29 @@
             {
                 "type": "square",
                 "center": [
-                    3.61,
-                    6.13
+                    4.35,
+                    7.44
                 ],
-                "size_inch": 3.97,
-                "angle": 57.71
+                "size_inch": 3.15,
+                "angle": 17.76
             },
             {
                 "type": "square",
                 "center": [
-                    4.26,
-                    4.12
+                    3.06,
+                    5.64
                 ],
-                "size_inch": 2.79,
-                "angle": 87.88
+                "size_inch": 3.2,
+                "angle": 4.7
             },
             {
                 "type": "square",
                 "center": [
-                    4.99,
-                    7.57
+                    5.2,
+                    9.3
                 ],
-                "size_inch": 3.12,
-                "angle": 88.26
-            },
-            {
-                "type": "square",
-                "center": [
-                    4.1,
-                    2.35
-                ],
-                "size_inch": 2.1,
-                "angle": 21.96
+                "size_inch": 2.68,
+                "angle": 6.97
             }
         ]
     },
@@ -1341,36 +1255,45 @@
             {
                 "type": "square",
                 "center": [
-                    3.39,
-                    4.68
+                    2.69,
+                    8.63
                 ],
-                "size_inch": 2.46,
-                "angle": 24.83
+                "size_inch": 3.41,
+                "angle": 12.0
             },
             {
                 "type": "square",
                 "center": [
-                    3.48,
-                    2.61
+                    5.26,
+                    8.54
                 ],
-                "size_inch": 3.31,
-                "angle": 48.13
+                "size_inch": 4.15,
+                "angle": 16.01
             },
             {
                 "type": "square",
                 "center": [
-                    5.22,
-                    5.53
+                    5.14,
+                    5.88
                 ],
-                "size_inch": 2.14,
-                "angle": 77.98
+                "size_inch": 3.37,
+                "angle": 15.39
+            },
+            {
+                "type": "square",
+                "center": [
+                    4.0,
+                    3.12
+                ],
+                "size_inch": 2.19,
+                "angle": 3.47
             }
         ]
     },
     {
-        "filename": "5_tilted\\tilted_3D_40.9deg_001.png",
+        "filename": "5_tilted\\tilted_3D_51.0deg_001.png",
         "category": "tilted_perspective",
-        "tilt_angle_deg": 40.9,
+        "tilt_angle_deg": 51.0,
         "original_shapes": [
             {
                 "type": "square",
@@ -1378,16 +1301,118 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 3.83,
-                "angle": 40.98,
+                "size_inch": 4.84,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_54.1deg_002.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 54.1,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.05,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_35.8deg_003.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 35.8,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.26,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_46.1deg_004.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 46.1,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 4.4,
+                "angle": 0,
+                "number": null
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_41.8deg_005.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 41.8,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.05,
+                "angle": 12.12,
+                "number": 0
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_32.8deg_006.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 32.8,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.79,
+                "angle": 34.5,
+                "number": 9
+            }
+        ]
+    },
+    {
+        "filename": "5_tilted\\tilted_3D_45.4deg_007.png",
+        "category": "tilted_perspective",
+        "tilt_angle_deg": 45.4,
+        "original_shapes": [
+            {
+                "type": "square",
+                "center": [
+                    4.13,
+                    5.84
+                ],
+                "size_inch": 3.04,
+                "angle": 12.13,
                 "number": 2
             }
         ]
     },
     {
-        "filename": "5_tilted\\tilted_3D_53.3deg_002.png",
+        "filename": "5_tilted\\tilted_3D_58.5deg_008.png",
         "category": "tilted_perspective",
-        "tilt_angle_deg": 53.3,
+        "tilt_angle_deg": 58.5,
         "original_shapes": [
             {
                 "type": "square",
@@ -1395,84 +1420,16 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 4.28,
-                "angle": 7.7,
-                "number": 6
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_47.1deg_003.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 47.1,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 4.53,
-                "angle": 25.13,
-                "number": 7
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_37.4deg_004.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 37.4,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 4.72,
-                "angle": 34.55,
-                "number": 2
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_43.1deg_005.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 43.1,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 4.32,
-                "angle": 17.74,
-                "number": 7
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_53.9deg_006.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 53.9,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 4.01,
+                "size_inch": 3.78,
                 "angle": 0,
                 "number": null
             }
         ]
     },
     {
-        "filename": "5_tilted\\tilted_3D_49.6deg_007.png",
+        "filename": "5_tilted\\tilted_3D_54.4deg_009.png",
         "category": "tilted_perspective",
-        "tilt_angle_deg": 49.6,
+        "tilt_angle_deg": 54.4,
         "original_shapes": [
             {
                 "type": "square",
@@ -1480,16 +1437,16 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 3.35,
-                "angle": 0,
-                "number": null
+                "size_inch": 3.32,
+                "angle": 22.81,
+                "number": 8
             }
         ]
     },
     {
-        "filename": "5_tilted\\tilted_3D_35.4deg_008.png",
+        "filename": "5_tilted\\tilted_3D_51.0deg_010.png",
         "category": "tilted_perspective",
-        "tilt_angle_deg": 35.4,
+        "tilt_angle_deg": 51.0,
         "original_shapes": [
             {
                 "type": "square",
@@ -1497,43 +1454,9 @@
                     4.13,
                     5.84
                 ],
-                "size_inch": 3.71,
-                "angle": 0,
-                "number": null
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_45.5deg_009.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 45.5,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 3.4,
-                "angle": 0,
-                "number": null
-            }
-        ]
-    },
-    {
-        "filename": "5_tilted\\tilted_3D_55.5deg_010.png",
-        "category": "tilted_perspective",
-        "tilt_angle_deg": 55.5,
-        "original_shapes": [
-            {
-                "type": "square",
-                "center": [
-                    4.13,
-                    5.84
-                ],
-                "size_inch": 3.38,
-                "angle": 0,
-                "number": null
+                "size_inch": 3.1,
+                "angle": 15.55,
+                "number": 8
             }
         ]
     }
