@@ -1,81 +1,39 @@
 # AGENTS.md
 
-Project-level entrypoint for AI agents.
+**项目轨道：Part B — 电赛单目视觉测量（进行中）**
+
+YOLO 学习部分（Part A）已迁移至 `D:\Pi\sy3`。
 
 ## Required Reading
 
-Before project work, read in this order:
+Before project work, read:
 
 1. `ai/governance/File Registry.md`
-2. Files required by the registry for the current task
-3. `ai/state/Operation State.yaml` when continuing, handing off, or recovering after context compression
+2. `ai/governance/Project Brief.md`
+3. `ai/governance/Security Boundary.md`
 
-## Harness Lifecycle
+## 双轨路由
 
-```text
-Task Intake → Session Start → Work Loop → Verification Gate → Session End
-```
-
-## Operating Rules
-
-- Use `File Registry.md` as the source of truth for file status and read policy.
-- Keep the task scope minimal unless the user explicitly expands it.
-- Do not treat generated drafts, archived content, or external references as project facts until confirmed.
-- Put unaccepted AI-generated work in `outputs/`.
-- Stop when the task conflicts with security boundaries, technical invariants, or the current operation scope.
-
-## Scope Handling
-
-When the user gives an unclear goal, produce a scope inference before making changes:
-- possible affected areas
-- recommended open scope
-- default locked scope
-- reason for the split
-
-Default policy: open only the minimum scope required for the task.
-
-## Security
-
-Never read, copy, summarize, output, log, commit, or preserve sensitive material.
-Full policy: `ai/governance/Security Boundary.md`.
+| 涉及内容 | 读什么 |
+|---|---|
+| 图形识别/测距/赛题 | `src/phase3/` |
+| 项目治理/状态 | `ai/governance/` + `ai/state/` |
+| 相机参数 | `references/summarized/camera_parameter_history.md` |
+| 检测算法原理 | `docs/detection_algorithm_lecture.md` |
+| YOLO 学习部分 | `D:\Pi\sy3`（独立项目，已归档） |
 
 ## Coding Pre-Execution Protocol
 
-**Before writing any code，必须先执行以下步骤，获得用户审批后才能动手：**
+1. **方案说明** → 文献依据 → 预期效果 → 替代方案
+2. **等待审批** → 用户确认后再写代码
+3. **追加决策记录** → `ai/decisions/Project Decision Log.md`
 
-1. **方案说明**：解释要实现什么功能、为什么这样做
-2. **技术栈与工具**：列出涉及的库、API、参数
-3. **预期效果**：描述实现后的行为和效果
-4. **替代方案**（如有）：说明为什么选这个方案而不是其他，否决方案需注明原因
-5. **文献依据**（如有）：列出参考的论文/GitHub项目/社区讨论，禁止无出处的幻想式方案
-6. **等待审批**：用户确认后再开始写代码
-7. **追加决策记录**：审批通过并实施后，将完整决策（含候选方案、否决方案、出处）追加到 `ai/decisions/Project Decision Log.md`
+## Key Directories
 
-违反此协议的代码改动将被拒绝。
-
-## Coding Tasks
-
-Before coding, read `ai/governance/Code Quality Rules.md` (when available).
-Default coding requirements:
-- keep files focused
-- keep functions single-purpose
-- avoid unrelated refactors
-- verify changes or state what remains unverified
-
-## Recordkeeping
-
-Do not create logs for routine chatter. Record only:
-- decisions that affect future work → **必须追加到 `ai/decisions/Project Decision Log.md`**
-- verified error causes and fixes
-- handoff state needed by the next agent
-
-## Conflict Order
-
-1. `Security Boundary.md`
-2. `Project Invariants.md`
-3. `Project Brief.md`
-4. `Constraints And Priority.md`
-5. `File Registry.md`
-6. logs, references, drafts, and archives
-
-If the conflict remains unclear, stop and ask the user.
+| 目录 | 内容 |
+|---|---|
+| `src/phase3/` | 图形检测 + 测距管线 |
+| `tests/test_images/shape/` | 测试截图 |
+| `tests/test_shapes.html` | 测试图形生成器 |
+| `docs/` | 讲义 |
+| `references/summarized/` | 相机参数 + 问题记录 |

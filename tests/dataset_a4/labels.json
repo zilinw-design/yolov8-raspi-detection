@@ -1,0 +1,203 @@
+[
+    {
+        "filename": "1_single\\single_001.png",
+        "category": "single_shape",
+        "contains_shapes": [
+            "square"
+        ],
+        "description": "A single square with size 2.14 and rotation 84.3 degrees."
+    },
+    {
+        "filename": "1_single\\single_002.png",
+        "category": "single_shape",
+        "contains_shapes": [
+            "circle"
+        ],
+        "description": "A single circle with size 1.93 and rotation 326.0 degrees."
+    },
+    {
+        "filename": "1_single\\single_003.png",
+        "category": "single_shape",
+        "contains_shapes": [
+            "square"
+        ],
+        "description": "A single square with size 1.98 and rotation 201.5 degrees."
+    },
+    {
+        "filename": "1_single\\single_004.png",
+        "category": "single_shape",
+        "contains_shapes": [
+            "square"
+        ],
+        "description": "A single square with size 2.22 and rotation 113.6 degrees."
+    },
+    {
+        "filename": "1_single\\single_005.png",
+        "category": "single_shape",
+        "contains_shapes": [
+            "triangle"
+        ],
+        "description": "A single triangle with size 2.30 and rotation 301.1 degrees."
+    },
+    {
+        "filename": "2_multi\\multi_001.png",
+        "category": "multi_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "description": "Multiple non-overlapping shapes: square, circle, triangle."
+    },
+    {
+        "filename": "2_multi\\multi_002.png",
+        "category": "multi_shapes",
+        "contains_shapes": [
+            "square",
+            "triangle"
+        ],
+        "description": "Multiple non-overlapping shapes: square, triangle."
+    },
+    {
+        "filename": "2_multi\\multi_003.png",
+        "category": "multi_shapes",
+        "contains_shapes": [
+            "triangle",
+            "square"
+        ],
+        "description": "Multiple non-overlapping shapes: triangle, square."
+    },
+    {
+        "filename": "2_multi\\multi_004.png",
+        "category": "multi_shapes",
+        "contains_shapes": [
+            "circle",
+            "triangle"
+        ],
+        "description": "Multiple non-overlapping shapes: circle, triangle."
+    },
+    {
+        "filename": "2_multi\\multi_005.png",
+        "category": "multi_shapes",
+        "contains_shapes": [
+            "square",
+            "triangle"
+        ],
+        "description": "Multiple non-overlapping shapes: square, triangle."
+    },
+    {
+        "filename": "3_tilted\\tilted_vertical_41.3deg_001.png",
+        "category": "tilted_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "tilt_info": {
+            "axis": "vertical",
+            "angle": 41.26
+        },
+        "description": "Shapes tilted vertically by 41.3 degrees."
+    },
+    {
+        "filename": "3_tilted\\tilted_horizontal_37.5deg_002.png",
+        "category": "tilted_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "tilt_info": {
+            "axis": "horizontal",
+            "angle": 37.48
+        },
+        "description": "Shapes tilted horizontally by 37.5 degrees."
+    },
+    {
+        "filename": "3_tilted\\tilted_horizontal_34.6deg_003.png",
+        "category": "tilted_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "tilt_info": {
+            "axis": "horizontal",
+            "angle": 34.64
+        },
+        "description": "Shapes tilted horizontally by 34.6 degrees."
+    },
+    {
+        "filename": "3_tilted\\tilted_vertical_57.9deg_004.png",
+        "category": "tilted_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "tilt_info": {
+            "axis": "vertical",
+            "angle": 57.91
+        },
+        "description": "Shapes tilted vertically by 57.9 degrees."
+    },
+    {
+        "filename": "3_tilted\\tilted_vertical_55.9deg_005.png",
+        "category": "tilted_shapes",
+        "contains_shapes": [
+            "square",
+            "circle",
+            "triangle"
+        ],
+        "tilt_info": {
+            "axis": "vertical",
+            "angle": 55.9
+        },
+        "description": "Shapes tilted vertically by 55.9 degrees."
+    },
+    {
+        "filename": "4_overlapping\\overlap_001.png",
+        "category": "overlapping_squares",
+        "contains_shapes": [
+            "square"
+        ],
+        "square_count": 3,
+        "description": "Overlapping 3 squares, hidden edges dashed."
+    },
+    {
+        "filename": "4_overlapping\\overlap_002.png",
+        "category": "overlapping_squares",
+        "contains_shapes": [
+            "square"
+        ],
+        "square_count": 4,
+        "description": "Overlapping 4 squares, hidden edges dashed."
+    },
+    {
+        "filename": "4_overlapping\\overlap_003.png",
+        "category": "overlapping_squares",
+        "contains_shapes": [
+            "square"
+        ],
+        "square_count": 4,
+        "description": "Overlapping 4 squares, hidden edges dashed."
+    },
+    {
+        "filename": "4_overlapping\\overlap_004.png",
+        "category": "overlapping_squares",
+        "contains_shapes": [
+            "square"
+        ],
+        "square_count": 4,
+        "description": "Overlapping 4 squares, hidden edges dashed."
+    },
+    {
+        "filename": "4_overlapping\\overlap_005.png",
+        "category": "overlapping_squares",
+        "contains_shapes": [
+            "square"
+        ],
+        "square_count": 3,
+        "description": "Overlapping 3 squares, hidden edges dashed."
+    }
+]

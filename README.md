@@ -1,50 +1,53 @@
-# YOLOv8 实时目标检测学习项目
+# 单目视觉测量 — 电赛备赛项目
 
-使用 YOLOv8 预训练模型 + OpenCV 实现实时目标检测系统。
+> **项目轨道：Part B — 电赛单目测距**（进行中） | **Part A YOLO 学习** → `D:\Pi\sy3`
+
+## 目标
+
+对准 2025 全国大学生电子设计竞赛 C 题。树莓派5 + 单摄像头，测量 A4 纸目标物的距离 D 和图形尺寸 x。
 
 ## 技术栈
 
-- **核心框架**: YOLOv8 (Ultralytics >= 8.0)
-- **模型**: YOLOv8n / YOLOv8s（轻量级预训练模型）
-- **图像处理**: OpenCV >= 4.6.0
-- **深度学习**: PyTorch >= 1.8.0
-- **辅助**: NumPy, Matplotlib
+OpenCV (文档扫描/透视矫正/solvePnP) + 4K USB Camera + picamera2 (辅助)
 
-## 学习任务
+## 阶段
 
-| 任务 | 内容 | 预计产出 |
-|---|---|---|
-| 任务1 基础入门 | YOLOv8n 预训练模型实时检测，画框+标签+置信度 | `src/task1_basic/` |
-| 任务2 进阶练习 | 类别过滤、样式自定义、n/s/m 模型对比 | `src/task2_advanced/` |
-| 任务3 应用强化 | 自定义检测（颜色/标志）+ 目标计数统计 | `src/task3_custom/` |
-| 任务4 性能优化 | 树莓派5 部署优化，ONNX 导出，目标 8-15fps | `src/task4_optimize/` |
+| Phase | 内容 | 状态 | 代码 |
+|---|---|---|---|
+| 3a | 文档扫描管线、图形检测、离线测试 | 🔄 | `src/phase3/` |
+| 3b | 焦距标定、pinhole 测距验证 | 待做 | — |
+| 3c | solvePnP 测距、参考目标消误差 | 待做 | — |
+| 4 | 重叠正方形、倾斜测量、赛题适配 | 待做 | — |
 
-## 环境要求
+## 赛题要求
 
-- Python >= 3.8
-- `pip install ultralytics opencv-python numpy matplotlib`
-- (任务4) `pip install onnx onnxruntime`
+| 指标 | 要求 |
+|---|---|
+| 摄像头数量 | 仅 1 颗 |
+| 测量距离 | 100cm-200cm |
+| 测距误差 | ≤ 2cm |
+| 测量耗时 | ≤ 5 秒 |
+| 目标物 | A4 纸 + 黑色几何图形（圆/正方/三角） |
 
-## 快速开始
+## 关键交付
 
-```bash
-# 安装依赖
-pip install ultralytics opencv-python numpy matplotlib
+- 文档扫描管线：Canny → 四边形检测 → 透视矫正 → OTSU 图形检测
+- 角点内缩黑边框验证（防误识别窗户/显示器）
+- 4K USB Camera 参数基准 + 对焦锁定
+- 离线测试：`src/phase3/test_detect.py`
 
-# 运行任务1
-python src/task1_basic/detect_camera.py
+## 环境
+
+- 树莓派5 + 4K USB Camera (MJPG 1920×1080) + IMX219 CSI (辅助)
+- Python 3.8+, venv `--system-site-packages`
+
+## 目录
+
 ```
-
-## 项目结构
-
-```
-yolo_learning_project/
-  README.md
-  AGENTS.md
-  src/              # 源代码（按任务分目录）
-  ai/governance/    # 项目治理文件
-  ai/state/         # 当前状态
-  outputs/          # AI 生成草稿
-  references/       # 外部参考资料
-  models/           # 预训练模型文件（.pt, .onnx）
+src/phase3/               Phase 3 图形检测 + 测距
+tests/test_shapes.html    测试图形生成器
+tests/test_images/shape/  测试截图
+docs/                     讲义
+references/summarized/    参数记录
+ai/governance/            项目治理
 ```
