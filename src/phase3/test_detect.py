@@ -118,20 +118,20 @@ def four_point_transform(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
 
 
 def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
-    """对单个轮廓分类 — 圆/三角用原始轮廓, 正方分支用凸包消除旋转锯齿。"""
+    """凸包前置分类——统一用凸包，双epsilon区分圆和正方。"""
+    hull = cv2.convexHull(contour)
+    hull_area = cv2.contourArea(hull)
     if area <= 0:
         area = cv2.contourArea(contour)
 
-    # ====== 原始轮廓做圆/三角判别 ======
-    peri_orig = cv2.arcLength(contour, True)
-    circularity = (4 * np.pi * area) / (peri_orig * peri_orig) if peri_orig > 0 else 0
-    approx_orig = cv2.approxPolyDP(contour, 0.02 * peri_orig, True)
-
-    # ====== 凸包做正方判别 ======
-    hull = cv2.convexHull(contour)
-    hull_area = cv2.contourArea(hull)
     peri_hull = cv2.arcLength(hull, True)
-    approx_hull = cv2.approxPolyDP(hull, 0.03 * peri_hull, True)
+
+    # 圆/三角用紧 epsilon（保留弧线顶点）
+    approx_tight = cv2.approxPolyDP(hull, 0.02 * peri_hull, True)
+    # 正方/重叠用松 epsilon（合并缺角锯齿）
+    approx_loose = cv2.approxPolyDP(hull, 0.04 * peri_hull, True)
+
+    circularity = (4 * np.pi * hull_area) / (peri_hull * peri_hull) if peri_hull > 0 else 0
 
     rect = cv2.minAreaRect(hull)
     rw, rh = rect[1]
@@ -139,17 +139,19 @@ def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
     aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
     rect_ratio = hull_area / (rw * rh) if rw * rh > 0 else 0
 
-    if circularity > 0.85 and len(approx_orig) > 6:
+    # 圆：紧epsilon保留弧顶点
+    if circularity > 0.85 and len(approx_tight) > 6:
         stype = "circle"
-    elif circularity > 0.78 and len(approx_orig) > 8:
-        # 缩放后像素化的圆（圆形度略降, 但顶点数远超正方）
+    elif circularity > 0.78 and len(approx_tight) > 8:
         stype = "circle"
-    elif len(approx_orig) <= 4 and circularity < 0.65:
+    # 三角：紧epsilon
+    elif len(approx_tight) <= 4 and circularity < 0.65:
         stype = "triangle"
-    elif 4 <= len(approx_hull) <= 5:
-        stype = "square" if (aspect > 0.80 and rect_ratio > 0.80) else "polygon"
+    # 正方/重叠：凸包已证明是凸的，minAreaRect 证它是方的，顶点数不重要
+    elif aspect > 0.80 and rect_ratio > 0.80:
+        stype = "square"
     else:
-        stype = "square" if (aspect > 0.80 and rect_ratio > 0.80) else "polygon"
+        stype = "polygon"
 
     box = np.intp(cv2.boxPoints(rect))
     return {"type": stype, "size_px": size, "contour": contour, "box": box, "area": area}
@@ -208,6 +210,9 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
 # ═══════════════════════════════════════════════════
 # 主函数
 # ═══════════════════════════════════════════════════
+DATASET_DIR = "D:/Pi/sy2/ai_harness_framework/exam/dataset_nuedc_2025_v2"
+
+
 def process_image(image_path: str, output_dir: str = "outputs") -> None:
     """处理单张图片：检测 → 画框 → 保存。"""
     frame = cv2.imread(image_path)

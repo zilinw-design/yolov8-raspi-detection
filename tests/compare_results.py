@@ -4,7 +4,8 @@ import numpy as np
 sys.path.insert(0, '.')
 from src.phase3.test_detect import detect_shape
 
-with open('dataset_nuedc_2025_v2/labels.json', encoding='utf-8') as f:
+DS = 'D:/Pi/sy2/ai_harness_framework/exam/dataset_nuedc_2025_v2'
+with open(DS + '/labels.json', encoding='utf-8') as f:
     gt_data = json.load(f)
 
 gt_map = {}
@@ -16,7 +17,7 @@ for cat in categories:
     print(f"\n{'='*50}")
     print(f"  {cat}")
     print(f"{'='*50}")
-    files = sorted(glob.glob(f'dataset_nuedc_2025_v2/{cat}/*.png'))
+    files = sorted(glob.glob(f'{DS}/{cat}/*.png'))
     for fp in files[:5]:
         img = cv2.imread(fp)
         h, w_img = img.shape[:2]
