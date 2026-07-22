@@ -30,6 +30,7 @@ from typing import Optional, Tuple
 
 import cv2
 import numpy as np
+from pathlib import Path
 from PIL import Image
 from digit_recognition import extract_digit_from_square, recognize_digit
 
