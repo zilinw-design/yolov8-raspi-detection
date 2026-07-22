@@ -203,7 +203,7 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
     warped = four_point_transform(frame, doc)
     wg = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
     h2, w2 = wg.shape
-    m = int(min(h2,w2)*0.20)
+    m = int(min(h2,w2)*0.25)
     center = wg[m:h2-m, m:w2-m]
     _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
