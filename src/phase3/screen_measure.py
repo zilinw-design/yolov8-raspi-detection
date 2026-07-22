@@ -345,11 +345,41 @@ class MJPEGHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         if self.path == "/":
-            html = ("<!DOCTYPE html><html><head><title>Phase 3a</title>"
-                    "<style>body{margin:0;background:#000;display:flex;"
-                    "justify-content:center;align-items:center;min-height:100vh}"
-                    "img{max-width:100vw;max-height:100vh}</style>"
-                    "</head><body><img src='/stream'></body></html>")
+            html = (
+                "<!DOCTYPE html><html lang=\"zh\"><head><meta charset=\"utf-8\">"
+                "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+                "<title>2025 电赛 C题 — 单目视觉测量</title>"
+                "<style>"
+                ":root{color-scheme:dark;--bg:#090b09;--panel:rgba(17,20,17,.96);"
+                "--line:#2b3329;--text:#eef2e8;--muted:#838d7b;--accent:#c7ad67;"
+                "--accent-rgb:199,173,103;--good:#6eb47a;--bad:#e26f61;"
+                "--radius:8px;--shadow:0 10px 40px rgba(0,0,0,.28)}"
+                "*{box-sizing:border-box}body{margin:0;min-height:100vh;"
+                "background:linear-gradient(180deg,#0b0e0b 0%,#090b09 48%,#070807 100%);"
+                "color:var(--text);font-family:system-ui,sans-serif;font-size:14px}"
+                ".app{min-height:100vh;display:grid;grid-template-rows:56px 1fr}"
+                "header{display:flex;align-items:center;gap:14px;padding:0 20px;"
+                "border-bottom:1px solid rgba(var(--accent-rgb),.14);"
+                "background:rgba(9,11,9,.9);backdrop-filter:blur(12px)}"
+                ".logo{width:30px;height:30px;border:1px solid rgba(var(--accent-rgb),.68);"
+                "display:grid;place-items:center;color:var(--accent);font-weight:700;"
+                "border-radius:var(--radius);background:linear-gradient(180deg,rgba(var(--accent-rgb),.18),rgba(var(--accent-rgb),.06))}"
+                "h1{font-size:16px;font-weight:600;letter-spacing:.01em;margin:0}"
+                ".status{display:flex;gap:10px;margin-left:auto}"
+                ".badge{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid var(--line);"
+                "background:var(--panel);color:var(--muted)}"
+                ".badge.on{border-color:var(--good);color:var(--good)}"
+                "main{display:flex;align-items:center;justify-content:center;padding:20px}"
+                ".viewer{position:relative;max-width:96vw;max-height:82vh;"
+                "border:1px solid rgba(var(--accent-rgb),.18);border-radius:var(--radius);"
+                "overflow:hidden;box-shadow:var(--shadow);background:var(--bg)}"
+                ".viewer img{display:block;max-width:96vw;max-height:82vh;object-fit:contain}"
+                "</style></head><body><div class=\"app\">"
+                "<header><div class=\"logo\">C</div><h1>2025 电赛 C题 · 单目视觉测量</h1>"
+                "<div class=\"status\"><span class=\"badge on\">● 实时</span>"
+                "<span class=\"badge\">4K USB Camera</span></div></header>"
+                "<main><div class=\"viewer\"><img src=\"/stream\" alt=\"检测画面\"></div></main>"
+                "</div></body></html>")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(html)))
