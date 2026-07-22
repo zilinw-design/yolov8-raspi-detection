@@ -39,7 +39,7 @@ cv2.setLogLevel(0)
 
 CAPTURE_WIDTH = 1920
 CAPTURE_HEIGHT = 1080
-MIN_SHAPE_AREA = 5000
+MIN_SHAPE_AREA = 15000
 FOCAL_FILE = "focal_length.txt"
 DEFAULT_PORT = 8081
 
@@ -56,24 +56,17 @@ A4_RATIO = 297.0 / 210.0  # ≈ 1.414, A4 纸宽高比
 
 
 def find_document_region(gray: np.ndarray) -> Optional[np.ndarray]:
-    """
-    在灰度图中找到最大四边形区域（A4纸/屏幕）。
-    返回 4 个角点 (4,1,2) 或 None。
-    """
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    edges = cv2.Canny(blur, 50, 150)
-    # 膨胀连接断边
-    edges = cv2.dilate(edges, np.ones((3, 3), np.uint8), iterations=3)
-
-    contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # OTSU 二值化 → 直接找黑色边框区域（比 Canny 更适合厚边框合成图像）
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return None
-
-    # 取前 10 大轮廓，依次检查是否接近四边形
     ranked = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
     h, w = gray.shape
-    min_area = (w * h) * 0.05  # 四边形至少占画面 5%
-
+    min_area = (w * h) * 0.05
+    dbg_quad = sum(1 for c in ranked if len(cv2.approxPolyDP(c, 0.02*cv2.arcLength(c,True), True))==4)
+    logger.info("DEBUG: 总轮廓=%d 四边形候选=%d 最大面积=%.0f min=%.0f",
+                len(contours), dbg_quad, cv2.contourArea(ranked[0]) if ranked else 0, min_area)
     for c in ranked:
         area = cv2.contourArea(c)
         if area < min_area:
@@ -83,34 +76,79 @@ def find_document_region(gray: np.ndarray) -> Optional[np.ndarray]:
         if len(approx) == 4:
             pts = approx.reshape(4, 2).astype(np.float32)
             xs, ys = pts[:, 0], pts[:, 1]
-            ww = max(xs) - min(xs)
-            hh = max(ys) - min(ys)
+            ww, hh = max(xs) - min(xs), max(ys) - min(ys)
             if min(ww, hh) <= 0:
                 continue
             ratio = max(ww, hh) / min(ww, hh)
             if not (0.9 < ratio < 2.5):
                 continue
-
-            # 角点内缩验证：4角点向重心缩 → 检查是否全黑（防误识别窗户/显示器边框）
+            # 角点内缩黑边框验证
             centroid = pts.mean(axis=0)
-            vectors = centroid - pts  # (4,2) 角点→重心方向
-            dists = np.linalg.norm(vectors, axis=1)  # (4,)
-            shrink = np.minimum(dists * 0.05, 20)     # 缩 5% 边长，最多 20px
-            # 归一化方向向量（处理零距离）
+            vectors = centroid - pts
+            dists = np.linalg.norm(vectors, axis=1)
+            shrink = np.minimum(dists * 0.05, 20)
             scaled = np.zeros_like(vectors)
             nonzero = dists > 0
             scaled[nonzero] = vectors[nonzero] / dists[nonzero, np.newaxis]
             sample_pts = pts + scaled * shrink[:, np.newaxis]
             sample_pts = np.clip(sample_pts.astype(int), 0, [w - 1, h - 1])
+            all_dark = all(gray[sy, sx] <= 80 for sx, sy in sample_pts)
+            if not all_dark:
+                continue
 
-            all_dark = True
-            for sx, sy in sample_pts:
-                if gray[sy, sx] > 80:  # 灰度>80=不是黑色
-                    all_dark = False
-                    break
-            if all_dark:
+            # [验证3] 边框中点内缩验证：四边中点向重心缩→检查是否全黑
+            ordered = order_points(pts)
+            midpoints = []
+            for k in range(4):
+                p1 = ordered[k]
+                p2 = ordered[(k + 1) % 4]
+                midpoints.append(((p1 + p2) / 2.0))
+            midpoints = np.array(midpoints)
+            mp_vectors = centroid - midpoints
+            mp_dists = np.linalg.norm(mp_vectors, axis=1)
+            mp_shrink = np.minimum(mp_dists * 0.03, 15)  # 边中点缩进更保守
+            mp_scaled = np.zeros_like(mp_vectors)
+            mp_nz = mp_dists > 0
+            mp_scaled[mp_nz] = mp_vectors[mp_nz] / mp_dists[mp_nz, np.newaxis]
+            mp_samples = np.clip((midpoints + mp_scaled * mp_shrink[:, np.newaxis]).astype(int), 0, [w-1, h-1])
+            edges_dark = all(gray[sy, sx] <= 80 for sx, sy in mp_samples)
+            if edges_dark:
                 return approx.astype(np.float32)
     return None
+
+
+def classify_contour(contour: np.ndarray, area: float = 0) -> dict:
+    """独占通道分类——每个图形只依赖一个凸包不变量。"""
+    hull = cv2.convexHull(contour)
+    hull_area = cv2.contourArea(hull)
+    if area <= 0:
+        area = cv2.contourArea(contour)
+
+    peri_hull = cv2.arcLength(hull, True)
+    approx = cv2.approxPolyDP(hull, 0.03 * peri_hull, True)
+    circularity = (4 * np.pi * hull_area) / (peri_hull * peri_hull) if peri_hull > 0 else 0
+
+    rect = cv2.minAreaRect(hull)
+    rw, rh = rect[1]
+    size = max(rw, rh)
+    aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
+    rect_ratio = hull_area / (rw * rh) if rw * rh > 0 else 0
+
+    # Layer 1: 圆 — circularity 独占（正方理论上限 0.785）
+    if circularity > 0.82:
+        stype = "circle"
+    # Layer 2: 三角 — 顶点数独占（凸包不改变拓扑）
+    elif len(approx) == 3:
+        stype = "triangle"
+    # Layer 3: 正方 — 几何兜底 + 松凸包安全网
+    elif (aspect > 0.80 and rect_ratio > 0.80) or len(approx) <= 5:
+        stype = "square"
+    else:
+        stype = "polygon"
+
+    box = np.intp(cv2.boxPoints(rect))
+    return {"type": stype, "size_px": size, "contour": contour, "box": box, "area": area}
+
 
 
 def order_points(pts: np.ndarray) -> np.ndarray:
@@ -146,64 +184,79 @@ def four_point_transform(frame: np.ndarray, corners: np.ndarray) -> np.ndarray:
     return cv2.warpPerspective(frame, M, (max_w, max_h))
 
 
-def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], Optional[float], str]:
-    """
-    文档扫描管线：
-    1. CLAHE + Canny → 找纸面/屏幕的四边框
-    2. 透视矫正 → 正视图
-    3. OTSU → 检测纸面上的黑色图形
-    4. 分类形状类型 + 测量像素尺寸
-    """
-    # Step 1: CLAHE 增强暗部
+def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, Optional[np.ndarray]]:
+    """返回 (found, doc_box, pixel_size, shape_type, warped_img)。"""
+    # 统一缩放到最大 1200px（消除高 DPI 厚边框双边缘问题）
+    h, w = frame.shape[:2]
+    if max(h, w) > 1200:
+        scale = 1200.0 / max(h, w)
+        frame = cv2.resize(frame, (int(w * scale), int(h * scale)))
+
+    # CLAHE
     lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     l = clahe.apply(l)
     gray = cv2.cvtColor(cv2.cvtColor(cv2.merge([l, a, b]), cv2.COLOR_LAB2BGR), cv2.COLOR_BGR2GRAY)
 
-    # Step 2: 找四边形区域
     doc_corners = find_document_region(gray)
     if doc_corners is None:
-        return False, None, None, ""
+        return False, None, None, "", None
 
-    # Step 3: 透视矫正
     warped = four_point_transform(frame, doc_corners)
     warped_gray = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
 
-    # Step 4: 矫正后的正视图 → OTSU 找黑色图形
-    _, binary = cv2.threshold(warped_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # 裁掉边框区（外圈 20%），只在中心区域找图形
+    h2, w2 = warped_gray.shape
+    margin = int(min(h2, w2) * 0.20)
+    center = warped_gray[margin:h2-margin, margin:w2-margin]
+    _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
-        return False, None, None, ""
+        return False, None, [], warped
 
-    best = max(contours, key=cv2.contourArea)
-    area = cv2.contourArea(best)
-    if area < MIN_SHAPE_AREA:
-        return False, None, None, ""
+    # 对所有合格轮廓分类，polygon 尝试凹点分割
+    shapes = []
+    for c in contours:
+        area = cv2.contourArea(c)
+        if area < MIN_SHAPE_AREA:
+            continue
+        stp = classify_contour(c, area)
+        if not stp:
+            continue
+        # polygon → 尝试凹点分割 → 子轮廓重分类
+        if stp["type"] == "polygon":
+            subs = split_by_convexity_defects(c)
+            if len(subs) >= 2:
+                for sc in subs:
+                    sa = cv2.contourArea(sc)
+                    if sa < MIN_SHAPE_AREA:
+                        continue
+                    sstp = classify_contour(sc, sa)
+                    if sstp:
+                        shapes.append(sstp)
+                continue  # 成功分割=跳过原 polygon
+        shapes.append(stp)
 
-    # Step 5: 形状分类 + 尺寸
-    rect = cv2.minAreaRect(best)
-    box = np.intp(cv2.boxPoints(rect))
-    rw, rh = rect[1]
-    pixel_size = max(rw, rh)
+    if not shapes:
+        return False, None, [], warped
 
-    peri = cv2.arcLength(best, True)
-    circularity = (4 * np.pi * area) / (peri * peri) if peri > 0 else 0
-    approx = cv2.approxPolyDP(best, 0.02 * peri, True)
-    if circularity > 0.85 and len(approx) > 6:
-        stype = "circle"
-    elif len(approx) == 3:
-        stype = "triangle"
-    elif 4 <= len(approx) <= 5:
-        aspect = min(rw, rh) / max(rw, rh) if max(rw, rh) > 0 else 0
-        rect_ratio = area / (rw * rh) if rw * rh > 0 else 0
-        stype = "square" if (aspect > 0.85 and rect_ratio > 0.85) else "polygon"
-    else:
-        stype = "polygon"
+    # 对正方形尝试数字识别（用连通域法提取孔洞）
+    for s in shapes:
+        if s["type"] == "square":
+            digit_region = extract_digit_from_square(binary, s["contour"], hierarchy, 0)
+            if digit_region is not None:
+                digit, conf = recognize_digit(digit_region)
+                if conf > 0.3:
+                    s["digit"] = digit
+                    s["digit_conf"] = round(conf, 2)
+                    s["digit_conf"] = round(conf, 2)
+                    s["digit_conf"] = round(conf, 2)
 
-    # 返回在原图上画的框（用矫正前的纸面区域框）
-    doc_box = np.intp(cv2.boxPoints(cv2.minAreaRect(doc_corners.reshape(4, 1, 2))))
-    return True, doc_box, pixel_size, stype
+    # 取最大图形的外接框作为整体检测框
+    largest = max(shapes, key=lambda s: s["size_px"])
+    box = np.intp(cv2.boxPoints(cv2.minAreaRect(largest["contour"])))
+    return True, box, shapes, warped
 
 
 # ═══════════════════════════════════════════════════
