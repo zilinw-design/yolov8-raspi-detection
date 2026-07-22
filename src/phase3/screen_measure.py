@@ -466,23 +466,34 @@ def main() -> None:
             continue
         frame_count += 1
 
-        # 每隔 3 帧做一次检测（主瓶颈：CLAHE LAB转换 @1920×1080）
+        # 每隔 3 帧做一次检测
         if frame_count % 3 == 0:
-            found, box, psize, stype = detect_shape(frame)
-        # 有框就画（无论是新检测还是复用上次）
-        if found and box is not None and psize:
-            cv2.drawContours(frame, [box], 0, (0, 255, 0), 2)
+            found, doc_box, shapes, warped = detect_shape(frame)
+        # 画文档边界 + 每个图形
+        if found and doc_box is not None:
+            cv2.drawContours(frame, [doc_box], 0, (0, 255, 0), 2)
+        if found and shapes:
+            min_sq = None
+            for s in shapes:
+                clr = (0,255,255) if s['type']=='circle' else (0,0,255) if s['type']=='triangle' else (255,0,0)
+                cv2.drawContours(frame, [s['box']], 0, clr, 2)
+                lbl = f"{s['type']} {s['size_px']:.0f}px"
+                if s.get('digit') is not None: lbl += f" [{s['digit']}]"
+                cv2.putText(frame, lbl, (int(s['box'][0][0]), int(s['box'][0][1])-5),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.45, clr, 1)
+                if s['type']=='square': min_sq = s if (min_sq is None or s['area']<min_sq['area']) else min_sq
 
         y = 35
-        for text in [
-            f"f={focal_px:.0f}px" if focal_px else "f=未标定",
-            f"{stype} {psize:.0f}px" if found else "未检测到图形",
-            f"D={distance_mm:.0f}mm ({distance_mm/10:.1f}cm)" if distance_mm else "",
-            overlay if overlay else "",
-        ]:
-            if text:
-                cv2.putText(frame, text, (15, y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-                y += 28
+        summary = f"f={focal_px:.0f}px" if focal_px else "f=未标定"
+        if found and shapes:
+            cat = set(s['type'] for s in shapes)
+            summary += f" | {len(shapes)} shapes: " + ", ".join(
+                f"{s['type']} {s['size_px']:.0f}px" + (f"[{s['digit']}]" if s.get('digit') is not None else "")
+                for s in shapes[:6])
+            sqs = [s for s in shapes if s['type']=='square']
+            if len(sqs)>1: summary += f" | min_sq={min(sqs,key=lambda s:s['area'])['size_px']:.0f}px"
+        if distance_mm: summary += f" | D={distance_mm:.0f}mm"
+        cv2.putText(frame, summary, (15, y), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0,255,0), 2)
 
         # JPEG → MJPEG
         rgb = np.ascontiguousarray(cv2.resize(frame, (960, 540))[:, :, ::-1])
@@ -513,8 +524,9 @@ def main() -> None:
                 known_d = float(parts[0].strip())
                 known_h = float(parts[1].strip())
                 last_known_h = known_h
-                found2, _, sz, _ = detect_shape(frame)
-                if found2 and sz and sz > 0:
+                found2, _, shapes2, _ = detect_shape(frame)
+                if found2 and shapes2:
+                    sz = max(s['size_px'] for s in shapes2)
                     focal_px = (known_d * sz) / known_h
                     save_focal(focal_px)
                     distance_mm = known_d
@@ -534,10 +546,11 @@ def main() -> None:
                 logger.warning("请先标定 (输入 c)")
                 overlay = "请先标定"
             else:
-                found2, _, sz, stype2 = detect_shape(frame)
-                if found2 and sz and sz > 0:
+                found2, _, shapes2, _ = detect_shape(frame)
+                if found2 and shapes2:
+                    sz = max(s['size_px'] for s in shapes2)
                     distance_mm = (focal_px * last_known_h) / sz
-                    overlay = f"{stype2} {sz:.0f}px → D={distance_mm:.0f}mm ({distance_mm/10:.1f}cm)"
+                    overlay = f"{len(shapes2)} shapes, max {sz:.0f}px → D={distance_mm:.0f}mm ({distance_mm/10:.1f}cm)"
                     logger.info(overlay)
                 else:
                     overlay = "未检测到图形"
