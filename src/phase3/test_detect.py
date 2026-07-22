@@ -39,7 +39,7 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 # ── 检测参数（与 screen_measure.py 保持一致）──
-MIN_SHAPE_AREA = 30000  # ~173px, 赛题正方 400+px
+MIN_SHAPE_AREA = 15000  # ~122px, 覆盖多正方形中最小的 1.5in 正方形
 
 
 # ═══════════════════════════════════════════════════
