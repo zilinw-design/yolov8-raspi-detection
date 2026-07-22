@@ -15,6 +15,7 @@ Phase 3a — 屏幕图形测距（MJPEG 网页版，SSH 无桌面可用）
 
 import argparse
 import io
+import json
 import logging
 import queue
 import re
@@ -335,69 +336,111 @@ def save_focal(f: float) -> None:
 class MJPEGHandler(BaseHTTPRequestHandler):
     jpeg_frame: bytes = b""
     condition: Condition = Condition()
+    results_json: str = '{"shapes":[]}'
 
     def do_GET(self) -> None:
         if self.path == "/":
-            html = (
-                "<!DOCTYPE html><html lang=\"zh\"><head><meta charset=\"utf-8\">"
-                "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-                "<title>2025 电赛 C题 — 单目视觉测量</title>"
-                "<style>"
-                ":root{color-scheme:dark;--bg:#090b09;--panel:rgba(17,20,17,.96);"
-                "--line:#2b3329;--text:#eef2e8;--muted:#838d7b;--accent:#c7ad67;"
-                "--accent-rgb:199,173,103;--good:#6eb47a;--bad:#e26f61;"
-                "--radius:8px;--shadow:0 10px 40px rgba(0,0,0,.28)}"
-                "*{box-sizing:border-box}body{margin:0;min-height:100vh;"
-                "background:linear-gradient(180deg,#0b0e0b 0%,#090b09 48%,#070807 100%);"
-                "color:var(--text);font-family:system-ui,sans-serif;font-size:14px}"
-                ".app{min-height:100vh;display:grid;grid-template-rows:56px 1fr}"
-                "header{display:flex;align-items:center;gap:14px;padding:0 20px;"
-                "border-bottom:1px solid rgba(var(--accent-rgb),.14);"
-                "background:rgba(9,11,9,.9);backdrop-filter:blur(12px)}"
-                ".logo{width:30px;height:30px;border:1px solid rgba(var(--accent-rgb),.68);"
-                "display:grid;place-items:center;color:var(--accent);font-weight:700;"
-                "border-radius:var(--radius);background:linear-gradient(180deg,rgba(var(--accent-rgb),.18),rgba(var(--accent-rgb),.06))}"
-                "h1{font-size:16px;font-weight:600;letter-spacing:.01em;margin:0}"
-                ".status{display:flex;gap:10px;margin-left:auto}"
-                ".badge{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid var(--line);"
-                "background:var(--panel);color:var(--muted)}"
-                ".badge.on{border-color:var(--good);color:var(--good)}"
-                "main{display:flex;align-items:center;justify-content:center;padding:20px}"
-                ".viewer{position:relative;max-width:96vw;max-height:82vh;"
-                "border:1px solid rgba(var(--accent-rgb),.18);border-radius:var(--radius);"
-                "overflow:hidden;box-shadow:var(--shadow);background:var(--bg)}"
-                ".viewer img{display:block;max-width:96vw;max-height:82vh;object-fit:contain}"
-                "</style></head><body><div class=\"app\">"
-                "<header><div class=\"logo\">C</div><h1>2025 电赛 C题 · 单目视觉测量</h1>"
-                "<div class=\"status\"><span class=\"badge on\">● 实时</span>"
-                "<span class=\"badge\">4K USB Camera</span></div></header>"
-                "<main><div class=\"viewer\"><img src=\"/stream\" alt=\"检测画面\"></div></main>"
-                "</div></body></html>")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.send_header("Content-Length", str(len(html)))
-            self.end_headers()
-            self.wfile.write(html.encode())
+            self._serve_html()
         elif self.path == "/stream":
-            self.send_response(200)
-            self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=FRAME")
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-            while True:
-                with MJPEGHandler.condition:
-                    MJPEGHandler.condition.wait(timeout=1.0)
-                    frame = MJPEGHandler.jpeg_frame
-                if not frame:
-                    continue
-                try:
-                    self.wfile.write(b"--FRAME\r\nContent-Type: image/jpeg\r\n")
-                    self.wfile.write(f"Content-Length: {len(frame)}\r\n\r\n".encode())
-                    self.wfile.write(frame)
-                    self.wfile.write(b"\r\n")
-                except (BrokenPipeError, ConnectionResetError):
-                    break
+            self._serve_stream()
+        elif self.path == "/results":
+            self._serve_results()
         else:
             self.send_error(404)
+
+    def _serve_html(self) -> None:
+        html = (
+            "<!DOCTYPE html><html lang=\"zh\"><head><meta charset=\"utf-8\">"
+            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            "<title>2025 电赛 C题 — 单目视觉测量</title><style>"
+            ":root{color-scheme:dark;--bg:#090b09;--panel:rgba(17,20,17,.96);"
+            "--line:#2b3329;--text:#eef2e8;--muted:#838d7b;--accent:#c7ad67;"
+            "--accent-rgb:199,173,103;--good:#6eb47a;--bad:#e26f61;"
+            "--radius:8px;--shadow:0 10px 40px rgba(0,0,0,.28)}"
+            "*{box-sizing:border-box}body{margin:0;min-height:100vh;"
+            "background:linear-gradient(180deg,#0b0e0b 0%,#090b09 48%,#070807 100%);"
+            "color:var(--text);font-family:system-ui,sans-serif;font-size:14px}"
+            ".app{min-height:100vh;display:grid;grid-template-rows:56px 1fr}"
+            "header{display:flex;align-items:center;gap:14px;padding:0 20px;"
+            "border-bottom:1px solid rgba(var(--accent-rgb),.14);"
+            "background:rgba(9,11,9,.9);backdrop-filter:blur(12px)}"
+            ".logo{width:30px;height:30px;border:1px solid rgba(var(--accent-rgb),.68);"
+            "display:grid;place-items:center;color:var(--accent);font-weight:700;"
+            "border-radius:var(--radius);background:linear-gradient(180deg,rgba(var(--accent-rgb),.18),rgba(var(--accent-rgb),.06))}"
+            "h1{font-size:16px;font-weight:600;margin:0}"
+            ".statusbar{margin-left:auto;display:flex;gap:8px}"
+            ".badge{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid var(--line);"
+            "background:var(--panel);color:var(--muted)}"
+            ".badge.on{border-color:var(--good);color:var(--good)}"
+            "main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:12px;padding:12px;min-height:0}"
+            ".stage{border:1px solid rgba(var(--accent-rgb),.18);border-radius:var(--radius);"
+            "overflow:hidden;background:var(--bg);box-shadow:var(--shadow);display:grid;place-items:center}"
+            ".stage img{max-width:100%;max-height:calc(100vh-88px);object-fit:contain}"
+            ".panel{background:var(--panel);border:1px solid rgba(var(--accent-rgb),.13);"
+            "border-radius:var(--radius);padding:14px;overflow:auto;"
+            "box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 14px 36px rgba(0,0,0,.3)}"
+            ".panel h2{font-size:13px;color:var(--accent);font-weight:700;margin:0 0 10px;"
+            "border-bottom:1px solid rgba(var(--accent-rgb),.12);padding-bottom:8px}"
+            ".row{display:flex;align-items:center;gap:8px;padding:5px 0;"
+            "border-bottom:1px solid var(--line);font-size:13px}"
+            ".row .type{width:18px;height:18px;border-radius:4px;flex-shrink:0}"
+            ".type.circle{background:#6eb47a}.type.triangle{background:#e26f61}"
+            ".type.square{background:var(--accent)}"
+            ".row .label{flex:1;color:var(--text)}"
+            ".row .size{color:var(--muted);font-size:12px}"
+            ".empty{text-align:center;color:var(--muted);padding:30px 0;font-size:13px}"
+            "</style></head><body><div class=\"app\">"
+            "<header><div class=\"logo\">C</div><h1>2025 电赛 C题 · 单目视觉测量</h1>"
+            "<div class=\"statusbar\"><span class=\"badge on\">● 实时</span>"
+            "<span class=\"badge\" id=\"count\">等待检测</span></div></header>"
+            "<main><div class=\"stage\"><img src=\"/stream\" alt=\"画面\"></div>"
+            "<div class=\"panel\"><h2>检测结果</h2><div id=\"results\" class=\"empty\">"
+            "等待检测...</div></div></main></div><script>"
+            "let c=0;setInterval(async()=>{try{let r=await fetch('/results');"
+            "let d=await r.json();let h='';"
+            "if(d.shapes&&d.shapes.length){"
+            "h+='共 '+d.shapes.length+' 个图形';"
+            "d.shapes.forEach(s=>{let cl=['circle','triangle','square'].includes(s.t)?s.t:'square';"
+            "h+='<div class=row><span class=\"type '+cl+'\"></span>"
+            "<span class=label>'+s.t+(s.d!=null?' ['+s.d+']':'')+'</span>"
+            "<span class=size>'+Math.round(s.p)+'px</span></div>'});"
+            "if(d.minSq)h+='<div style=margin-top:8px;font-size:12px;color:var(--accent)>"
+            "最小正方形: '+Math.round(d.minSq)+'px</div>'}"
+            "else h='<div class=empty>'+d.msg+'</div>';"
+            "document.getElementById('results').innerHTML=h;"
+            "document.getElementById('count').textContent=d.shapes?d.shapes.length+' 目标':d.msg;"
+            "c++}catch(e){}},1000)</script></body></html>")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(html.encode())))
+        self.end_headers()
+        self.wfile.write(html.encode())
+
+    def _serve_results(self) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        self.wfile.write(MJPEGHandler.results_json.encode())
+
+    def _serve_stream(self) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=FRAME")
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        while True:
+            with MJPEGHandler.condition:
+                MJPEGHandler.condition.wait(timeout=1.0)
+                frame = MJPEGHandler.jpeg_frame
+            if not frame:
+                continue
+            try:
+                self.wfile.write(b"--FRAME\r\nContent-Type: image/jpeg\r\n")
+                self.wfile.write(f"Content-Length: {len(frame)}\r\n\r\n".encode())
+                self.wfile.write(frame)
+                self.wfile.write(b"\r\n")
+            except (BrokenPipeError, ConnectionResetError):
+                break
 
     def log_message(self, format, *args) -> None:
         pass
@@ -492,6 +535,20 @@ def main() -> None:
         # 每隔 3 帧做一次检测
         if frame_count % 3 == 0:
             found, doc_box, shapes, warped = detect_shape(frame)
+            # 更新网页端 JSON 结果
+            if found and shapes:
+                results = []
+                sqs = [s for s in shapes if s['type']=='square']
+                min_sq = min(sqs, key=lambda s:s['area'])['size_px'] if sqs else 0
+                for s in shapes:
+                    results.append({"t":s['type'],"p":s['size_px'],"d":s.get('digit')})
+                MJPEGHandler.results_json = json.dumps(
+                    {"shapes":results,"minSq":min_sq,"msg":f"{len(shapes)} targets"})
+            elif found:
+                MJPEGHandler.results_json = json.dumps({"shapes":[],"msg":"未检测到图形"})
+            else:
+                MJPEGHandler.results_json = json.dumps({"shapes":[],"msg":"未检测到A4纸"})
+
         # 画文档边界 + 每个图形
         if found and doc_box is not None:
             cv2.drawContours(frame, [doc_box], 0, (0, 255, 0), 2)
