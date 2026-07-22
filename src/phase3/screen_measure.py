@@ -196,21 +196,16 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
     l = clahe.apply(l)
     gray = cv2.cvtColor(cv2.cvtColor(cv2.merge([l, a, b]), cv2.COLOR_LAB2BGR), cv2.COLOR_BGR2GRAY)
 
-    doc_corners = find_document_region(gray)
-    if doc_corners is None:
-        return False, None, None, "", None
-
-    warped = four_point_transform(frame, doc_corners)
-    warped_gray = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
-
-    # 裁掉边框区（外圈 20%），只在中心区域找图形
-    h2, w2 = warped_gray.shape
-    margin = int(min(h2, w2) * 0.20)
-    center = warped_gray[margin:h2-margin, margin:w2-margin]
+    doc = find_document_region(gray)
+    if doc is None: return False, None, [], None
+    warped = four_point_transform(frame, doc)
+    wg = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
+    h2, w2 = wg.shape
+    m = int(min(h2,w2)*0.20)
+    center = wg[m:h2-m, m:w2-m]
     _, binary = cv2.threshold(center, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    if not contours:
-        return False, None, [], warped
+    if not contours: return False, None, [], warped
 
     # 对所有合格轮廓分类，polygon 尝试凹点分割
     shapes = []
