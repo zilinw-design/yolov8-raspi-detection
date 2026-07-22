@@ -24,16 +24,7 @@ import numpy as np
 try:
     from .digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
 except ImportError:
-    from digit_recognition import extract_digit_from_square, recognize_digit, generate_templates
-
-_DIGIT_TEMPLATES = None
-
-
-def _get_templates():
-    global _DIGIT_TEMPLATES
-    if _DIGIT_TEMPLATES is None:
-        _DIGIT_TEMPLATES = generate_templates()
-    return _DIGIT_TEMPLATES
+    from digit_recognition import extract_digit_from_square, recognize_digit
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -300,12 +291,11 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
         return False, None, [], warped
 
     # 对正方形尝试数字识别（用连通域法提取孔洞）
-    templates = _get_templates()
     for s in shapes:
         if s["type"] == "square":
             digit_region = extract_digit_from_square(binary, s["contour"], hierarchy, 0)
             if digit_region is not None:
-                digit, conf = recognize_digit(digit_region, templates)
+                digit, conf = recognize_digit(digit_region)
                 if conf > 0.3:
                     s["digit"] = digit
                     s["digit_conf"] = round(conf, 2)
