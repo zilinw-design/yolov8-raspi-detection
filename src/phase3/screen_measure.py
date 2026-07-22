@@ -339,11 +339,14 @@ class MJPEGHandler(BaseHTTPRequestHandler):
             self.send_error(404)
 
     def _serve_html(self) -> None:
+        import os as _os
+        script_dir = _os.path.dirname(_os.path.abspath(__file__))
+        html_path = _os.path.join(script_dir, "dashboard.html")
         try:
-            with open(Path(__file__).parent / "dashboard.html", "r", encoding="utf-8") as f:
+            with open(html_path, "r", encoding="utf-8") as f:
                 html = f.read()
-        except Exception:
-            html = "<html><body><h1>dashboard.html not found</h1></body></html>"
+        except Exception as e:
+            html = f"<html><body><h1>Error: {e}</h1><p>Path: {html_path}</p></body></html>"
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(html.encode())))
