@@ -25,7 +25,7 @@ h1{font-size:15px;font-weight:600;margin:0}
 .badge{font-size:11px;padding:2px 9px;border-radius:10px;border:1px solid var(--line);
 background:var(--panel);color:var(--muted)}
 .badge.on{border-color:var(--good);color:var(--good)}
-main{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:12px;padding:12px;min-height:0}
+main{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px;padding:12px;min-height:0}
 .panel{background:var(--panel);border:1px solid rgba(var(--accent-rgb),.13);
 border-radius:var(--radius-lg);overflow:hidden;
 box-shadow:inset 0 1px 0 rgba(255,255,255,.035),var(--shadow-soft)}
@@ -40,7 +40,9 @@ border-bottom:1px solid var(--line);background:rgba(19,23,18,.96)}
 .test-select select{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--line);
 border-radius:var(--radius);padding:6px 8px;font-size:13px}
 .test-preview{padding:0 10px 10px;text-align:center}
-.test-preview img{max-width:100%;max-height:220px;border:1px solid var(--line);border-radius:var(--radius)}
+.test-preview{padding:4px 10px 10px;text-align:center;flex:1;display:flex;align-items:center;justify-content:center}
+.test-preview img{max-width:100%;max-height:calc(100vh - 340px);border:1px solid var(--line);border-radius:var(--radius);object-fit:contain}
+.stage img{max-width:100%;max-height:calc(100vh - 220px);object-fit:contain}
 .result-row{display:flex;align-items:center;gap:8px;padding:4px 14px;border-bottom:1px solid var(--line);font-size:12px}
 .result-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .result-dot.circle{background:var(--good)}
@@ -64,12 +66,7 @@ border-radius:var(--radius);padding:6px 8px;font-size:13px}
   <span class="badge" id="countBadge">等待检测</span>
 </header>
 <main>
-  <!-- 左：实时画面 -->
-  <div class="panel">
-    <div class="panel-head"><h2>实时检测画面</h2></div>
-    <div class="stage"><img id="liveStream" src="/stream" alt="实时画面"></div>
-  </div>
-  <!-- 右：测试图+结果 -->
+  <!-- 左：测试图 + 检测结果 -->
   <div class="right-col">
     <div class="panel">
       <div class="panel-head"><h2>测试图集</h2></div>
@@ -83,6 +80,11 @@ border-radius:var(--radius);padding:6px 8px;font-size:13px}
       <div class="panel-body" id="results"><div class="empty-state">等待检测...</div></div>
       <div class="summary" id="summary"></div>
     </div>
+  </div>
+  <!-- 右：实时画面 -->
+  <div class="panel">
+    <div class="panel-head"><h2>实时检测画面</h2></div>
+    <div class="stage"><img id="liveStream" src="/stream" alt="实时画面"></div>
   </div>
 </main>
 </div>
