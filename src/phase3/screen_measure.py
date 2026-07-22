@@ -30,6 +30,7 @@ from typing import Optional, Tuple
 import cv2
 import numpy as np
 from PIL import Image
+from digit_recognition import extract_digit_from_square, recognize_digit
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
