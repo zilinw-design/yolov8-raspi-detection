@@ -514,17 +514,18 @@ def main() -> None:
                             cv2.FONT_HERSHEY_SIMPLEX, 0.45, clr, 1)
                 if s['type']=='square': min_sq = s if (min_sq is None or s['area']<min_sq['area']) else min_sq
 
-        y = 35
-        summary = f"f={focal_px:.0f}px" if focal_px else "f=未标定"
+        # 清晰的顶部状态栏（黑底白字，易阅读）
+        y = 32
         if found and shapes:
-            cat = set(s['type'] for s in shapes)
-            summary += f" | {len(shapes)} shapes: " + ", ".join(
-                f"{s['type']} {s['size_px']:.0f}px" + (f"[{s['digit']}]" if s.get('digit') is not None else "")
-                for s in shapes[:6])
-            sqs = [s for s in shapes if s['type']=='square']
-            if len(sqs)>1: summary += f" | min_sq={min(sqs,key=lambda s:s['area'])['size_px']:.0f}px"
-        if distance_mm: summary += f" | D={distance_mm:.0f}mm"
-        cv2.putText(frame, summary, (15, y), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0,255,0), 2)
+            count_str = f"{len(shapes)} targets"
+            for s in shapes[:4]:
+                clr = (0,255,255) if s['type']=='circle' else (0,0,255) if s['type']=='triangle' else (255,0,0)
+                cv2.putText(frame, f"{s['type']} {s['size_px']:.0f}px",
+                            (15, y), cv2.FONT_HERSHEY_SIMPLEX, 0.65, clr, 2)
+                y += 26
+        else:
+            cv2.putText(frame, "No shapes detected", (15, y),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,140,255), 2)
 
         # JPEG → MJPEG
         rgb = np.ascontiguousarray(cv2.resize(frame, (960, 540))[:, :, ::-1])

@@ -36,13 +36,11 @@ border-bottom:1px solid var(--line);background:rgba(19,23,18,.96)}
 .stage{background:var(--bg);display:grid;place-items:center;border-radius:0 0 var(--radius-lg) var(--radius-lg)}
 .stage img{max-width:100%;max-height:calc(100vh-140px);object-fit:contain}
 .right-col{display:grid;grid-template-rows:auto 1fr;gap:12px;min-height:0}
-.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px}
-.test-card{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
-cursor:pointer;background:var(--panel-2);transition:border-color .15s ease}
-.test-card:hover{border-color:var(--accent)}
-.test-card.active{border-color:var(--accent-hover);box-shadow:0 0 8px rgba(var(--accent-rgb),.3)}
-.test-card img{width:100%;aspect-ratio:210/297;object-fit:cover;display:block}
-.test-label{font-size:11px;color:var(--muted);text-align:center;padding:4px}
+.test-select{display:flex;gap:8px;align-items:center;padding:10px 14px}
+.test-select select{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--line);
+border-radius:var(--radius);padding:6px 8px;font-size:13px}
+.test-preview{padding:0 10px 10px;text-align:center}
+.test-preview img{max-width:100%;max-height:220px;border:1px solid var(--line);border-radius:var(--radius)}
 .result-row{display:flex;align-items:center;gap:8px;padding:4px 14px;border-bottom:1px solid var(--line);font-size:12px}
 .result-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .result-dot.circle{background:var(--good)}
@@ -74,8 +72,11 @@ cursor:pointer;background:var(--panel-2);transition:border-color .15s ease}
   <!-- 右：测试图+结果 -->
   <div class="right-col">
     <div class="panel">
-      <div class="panel-head"><h2>测试图集</h2><span style="font-size:11px;color:var(--muted)" id="testLabel">点击切换</span></div>
-      <div class="test-grid" id="testGrid"></div>
+      <div class="panel-head"><h2>测试图集</h2></div>
+      <div class="test-select">
+        <select id="testSelect" onchange="switchTest()"></select>
+      </div>
+      <div class="test-preview"><img id="testPreview" src="" alt="选择测试图"></div>
     </div>
     <div class="panel">
       <div class="panel-head"><h2>检测结果</h2></div>
@@ -86,7 +87,7 @@ cursor:pointer;background:var(--panel-2);transition:border-color .15s ease}
 </main>
 </div>
 <script>
-// 测试图列表 (exam dataset)
+// 测试图列表
 const TEST_IMAGES = [
   {name:'基本·正方', src:'/test-images/target_005.png'},
   {name:'基本·三角', src:'/test-images/target_002.png'},
@@ -96,19 +97,18 @@ const TEST_IMAGES = [
   {name:'重叠正方', src:'/test-images/overlap_001.png'}
 ];
 
-// 渲染测试图网格
-const grid = document.getElementById('testGrid');
+// 填充下拉框
+const sel = document.getElementById('testSelect');
 TEST_IMAGES.forEach((img,i) => {
-  const card = document.createElement('div');
-  card.className = 'test-card';
-  card.innerHTML = '<img src="'+img.src+'" loading="lazy"><div class="test-label">'+img.name+'</div>';
-  card.onclick = () => {
-    document.querySelectorAll('.test-card').forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
-  };
-  grid.appendChild(card);
+  const opt = document.createElement('option');
+  opt.value = img.src; opt.textContent = img.name;
+  sel.appendChild(opt);
 });
-if(TEST_IMAGES.length) document.querySelector('.test-card').classList.add('active');
+
+function switchTest() {
+  document.getElementById('testPreview').src = sel.value;
+}
+switchTest();
 
 // 轮询检测结果
 setInterval(async () => {
