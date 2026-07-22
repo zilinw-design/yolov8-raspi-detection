@@ -354,7 +354,7 @@ class MJPEGHandler(BaseHTTPRequestHandler):
         self.wfile.write(html.encode())
     def _serve_test_image(self, path: str) -> None:
         fname = path.replace("/test-images/", "")
-        fp = Path(__file__).parent.parent / "test_images" / fname
+        fp = Path(__file__).parent.parent.parent / "test_images" / fname
         if fp.exists():
             with open(fp, 'rb') as f:
                 data = f.read()
