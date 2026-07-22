@@ -353,19 +353,26 @@ class MJPEGHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(html.encode())
     def _serve_test_image(self, path: str) -> None:
-        fname = path.replace("/test-images/", "")
-        fp = Path(__file__).parent.parent.parent / "test_images" / fname
-        if fp.exists():
-            with open(fp, 'rb') as f:
-                data = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", "image/png")
-            self.send_header("Content-Length", str(len(data)))
-            self.send_header("Cache-Control", "max-age=3600")
-            self.end_headers()
-            self.wfile.write(data)
-        else:
-            self.send_error(404)
+        try:
+            fname = path.replace("/test-images/", "")
+            fp = Path(__file__).parent.parent.parent / "test_images" / fname
+            if fp.exists():
+                with open(fp, 'rb') as f:
+                    data = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "image/png")
+                self.send_header("Content-Length", str(len(data)))
+                self.send_header("Cache-Control", "max-age=3600")
+                self.end_headers()
+                self.wfile.write(data)
+            else:
+                self.send_error(404)
+        except Exception as e:
+            logger.warning("Test image error: %s", e)
+            try:
+                self.send_error(500)
+            except Exception:
+                pass
 
     def _serve_results(self) -> None:
         self.send_response(200)
