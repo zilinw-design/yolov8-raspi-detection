@@ -34,9 +34,6 @@ from PIL import Image
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-# 抑制 MJPG 解码警告（USB 摄像头正常现象）
-cv2.setLogLevel(0)
-
 CAPTURE_WIDTH = 1920
 CAPTURE_HEIGHT = 1080
 MIN_SHAPE_AREA = 15000
