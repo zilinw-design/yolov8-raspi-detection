@@ -218,18 +218,6 @@ def detect_shape(frame: np.ndarray) -> Tuple[bool, Optional[np.ndarray], list, O
         stp = classify_contour(c, area)
         if not stp:
             continue
-        # polygon → 尝试凹点分割 → 子轮廓重分类
-        if stp["type"] == "polygon":
-            subs = split_by_convexity_defects(c)
-            if len(subs) >= 2:
-                for sc in subs:
-                    sa = cv2.contourArea(sc)
-                    if sa < MIN_SHAPE_AREA:
-                        continue
-                    sstp = classify_contour(sc, sa)
-                    if sstp:
-                        shapes.append(sstp)
-                continue  # 成功分割=跳过原 polygon
         shapes.append(stp)
 
     if not shapes:
