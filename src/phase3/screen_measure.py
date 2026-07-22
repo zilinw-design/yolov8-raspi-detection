@@ -325,6 +325,7 @@ class MJPEGHandler(BaseHTTPRequestHandler):
     jpeg_frame: bytes = b""
     condition: Condition = Condition()
     results_json: str = '{"shapes":[]}'
+    test_img_dir = Path(__file__).parent.parent.parent / "test_images"
 
     def do_GET(self) -> None:
         if self.path == "/":
@@ -355,7 +356,7 @@ class MJPEGHandler(BaseHTTPRequestHandler):
     def _serve_test_image(self, path: str) -> None:
         try:
             fname = path.replace("/test-images/", "")
-            fp = Path(__file__).parent.parent.parent / "test_images" / fname
+            fp = MJPEGHandler.test_img_dir / fname
             if fp.exists():
                 with open(fp, 'rb') as f:
                     data = f.read()
@@ -369,10 +370,7 @@ class MJPEGHandler(BaseHTTPRequestHandler):
                 self.send_error(404)
         except Exception as e:
             logger.warning("Test image error: %s", e)
-            try:
-                self.send_error(500)
-            except Exception:
-                pass
+            self.send_error(500)
 
     def _serve_results(self) -> None:
         self.send_response(200)
